@@ -12,7 +12,7 @@ export default {
         {
           text: "Formularz",
           to: "/form",
-          icon: "fa-brand fa-wpforms",
+          icon: "fa-brands fa-wpforms",
         },
         {
           text: "Posty",
@@ -34,13 +34,13 @@ export default {
   <header>
     <nav class="head-nav">
       <RouterLink to="/"><h2>My page</h2></RouterLink>
-      <a href="https://github.com/Miligro/ATComp">GitHub</a>
+      <a href="https://github.com/Miligro/ATCompVue">GitHub</a>
     </nav>
     <nav class="side-nav" id="side-nav">
       <RouterLink v-for="nav in navs" :key="nav.to" :to="nav.to">
         <div class="navigation-con main-page-nav">
           <p>{{ nav.text }}</p>
-          <i :class="nav.icon"></i>
+          <font-awesome-icon class="white-icon" :icon="nav.icon" />
         </div>
       </RouterLink>
     </nav>
@@ -64,6 +64,10 @@ h2 {
 a {
   text-decoration: none;
   color: rgb(255, 255, 255);
+}
+
+.white-icon {
+  color: white;
 }
 
 .row-start,
