@@ -6,7 +6,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 button {
   padding: 10px;
   width: 20%;
