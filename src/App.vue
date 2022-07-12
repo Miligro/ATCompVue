@@ -1,119 +1,213 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from '@/components/HelloWorld.vue'
+<script>
+import { RouterLink, RouterView } from "vue-router";
+
+export default {
+  components: {
+    RouterView,
+    RouterLink,
+  },
+  data() {
+    return {
+      navs: [
+        {
+          text: "Formularz",
+          to: "/form",
+          icon: "fa-brand fa-wpforms",
+        },
+        {
+          text: "Posty",
+          to: "/posts",
+          icon: "fa-regular fa-message",
+        },
+        {
+          text: "Albumy",
+          to: "/albums",
+          icon: "fa-regular fa-images",
+        },
+      ],
+    };
+  },
+};
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
+    <nav class="head-nav">
+      <RouterLink to="/"><h2>My page</h2></RouterLink>
+      <a href="https://github.com/Miligro/ATComp">GitHub</a>
+    </nav>
+    <nav class="side-nav" id="side-nav">
+      <RouterLink v-for="nav in navs" :key="nav.to" :to="nav.to">
+        <div class="navigation-con main-page-nav">
+          <p>{{ nav.text }}</p>
+          <i :class="nav.icon"></i>
+        </div>
+      </RouterLink>
+    </nav>
   </header>
-
   <RouterView />
 </template>
 
 <style>
-@import '@/assets/base.css';
+@import "@/assets/base.css";
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
-  font-weight: normal;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+h2 {
+  margin-top: 10px;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-a,
-.green {
+a {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
+  color: rgb(255, 255, 255);
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+.row-end {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-nav {
+.row-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  cursor: pointer;
+  margin-top: 8px;
+  /* align-self: flex-end; */
+  border: none;
+  background-color: rgb(2, 184, 47);
+  font-size: 15px;
+  border-radius: 4px;
+  padding: 5px;
+  color: white;
+}
+
+.error-icon,
+.ask-icon,
+.success-icon {
+  border: 3px solid red;
+  border-radius: 50px;
+  width: 100px;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+  display: inline-flex;
+  color: red;
+  font-size: 60px;
+}
+
+.ask-icon {
+  border: 3px solid gray;
+  color: gray;
+}
+
+.success-icon {
+  border: 3px solid green;
+  color: green;
+}
+
+.head-nav {
+  background-color: #4c3c3c;
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  top: 0;
   width: 100%;
-  font-size: 12px;
+  position: fixed;
+  justify-content: space-between;
+  padding: 20px;
+  /* border-bottom: 1px solid black; */
+}
+
+.head-nav a {
+  width: 160px;
   text-align: center;
-  margin-top: 2rem;
+  justify-content: center;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
+.head-nav a h2 {
+  margin: 0;
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+.side-nav {
+  background-color: #5f4c4c;
+  width: 200px;
+  height: 100%;
+  top: 60px;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+.side-nav a {
+  width: 80%;
+  text-decoration: none;
+  color: white;
 }
 
-nav a:first-of-type {
-  border: 0;
+.navigation-con {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 1rem;
+  border-radius: 6px;
+  color: black;
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+.navigation-con:hover {
+  border: 2px solid rgb(0, 0, 0);
+  cursor: pointer;
+  color: rgb(0, 0, 0);
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+hr {
+  color: black;
+  width: 32%;
+}
 
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+.main-page-navs {
+  width: 20%;
+}
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.main-page-nav {
+  border: 1px solid black;
+  color: black;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 20px;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+.side-nav .main-page-nav {
+  border: 1px solid rgb(255, 255, 255);
+}
 
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
+.side-nav .main-page-nav:hover {
+  border: 2px solid rgb(255, 255, 255);
+}
 
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.side-nav p,
+.side-nav i {
+  color: white;
+}
+
+i:hover {
+  scale: 1.1;
 }
 </style>
