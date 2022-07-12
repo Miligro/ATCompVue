@@ -5,7 +5,7 @@
         <span class="error-icon"> ! </span>
       </div>
       <div class="row-center">
-        <h1>{{ msg }}</h1>
+        <h1>Niepoprawne {{ msg }}</h1>
       </div>
       <div class="row-end">
         <button @click="closeAlertDialog">Zamknij</button>
@@ -13,109 +13,113 @@
     </div>
   </alert-dialog>
   <div class="main" id="main">
-    <h1>Formularz</h1>
-    <hr />
-    <form @submit.prevent="onSubmit">
-      <label for="first-name">Imię:</label>
-      <input
-        type="text"
-        name="first-name"
-        v-model="firstName"
-        :class="{ errorBorder: invalidFirstName }"
-        @blur="checkFirstName"
-      />
-      <p class="error-msg" v-if="invalidFirstName">Niepoprawne imię</p>
-
-      <label for="last-name">Nazwisko:</label>
-      <input
-        type="text"
-        name="last-name"
-        v-model="lastName"
-        :class="{ errorBorder: invalidLastName }"
-        @blur="checkLastName"
-      />
-      <p class="error-msg" v-if="invalidLastName">Niepoprawne nazwisko</p>
-
-      <label for="email">Email:</label>
-      <input
-        type="email"
-        name="email"
-        v-model="email"
-        :class="{ errorBorder: invalidEmail }"
-        @blur="checkEmail"
-      />
-      <p class="error-msg" v-if="invalidEmail">Niepoprawny email</p>
-
-      <label for="description">Opis:</label>
-      <textarea
-        name="description"
-        v-model="description"
-        rows="5"
-        :class="{ errorBorder: invalidDescription }"
-        @blur="checkDescription"
-      ></textarea>
-      <p class="error-msg" v-if="invalidDescription">Niepoprawny opis</p>
-
-      <label for="pesel">PESEL:</label>
-      <input
-        type="text"
-        name="pesel"
-        v-model="pesel"
-        :class="{ errorBorder: invaliPesel }"
-        @blur="checkPesel"
-      />
-      <p class="error-msg" v-if="invaliPesel">Niepoprawny pesel</p>
-      <div class="row-end">
-        <button>Zapisz</button>
+    <div class="container">
+      <h1>Formularz</h1>
+      <hr />
+      <form @submit.prevent="onSubmit">
+        <div v-for="el in toValid">
+          <label for="first-name">{{ el.label }}:</label>
+          <input
+            type="text"
+            name="first-name"
+            v-model="el.value"
+            :class="{ errorBorder: el.invalid }"
+            @blur="el.checkFunction"
+          />
+          <p class="error-msg" v-if="el.invalid">Niepoprawne imię</p>
+        </div>
+        <div class="row-end">
+          <button>Zapisz</button>
+        </div>
+      </form>
+      <div class="disabled-inputs">
+        <input type="text" disabled v-model="dateOfBirth" />
+        <input type="text" disabled v-model="gender" />
       </div>
-    </form>
-    <div class="disabled-inputs">
-      <input type="text" disabled v-model="dateOfBirth" />
-      <input type="text" disabled v-model="gender" />
+      <FormResult
+        v-if="result"
+        :result="{
+          firstName: toValid.firstName.value,
+          lastName: toValid.lastName.value,
+          email: toValid.email.value,
+          description: toValid.description.value,
+          pesel: toValid.pesel.value,
+        }"
+      ></FormResult>
     </div>
   </div>
 </template>
 
 <script>
-import { checkFunction, validatePesel } from "../scripts/validation.js";
+import {
+  checkFunction,
+  validatePesel,
+  validateInputs,
+} from "../scripts/validation.js";
+import FormResult from "../components/FormResult.vue";
 export default {
+  components: {
+    FormResult,
+  },
   data() {
     return {
-      firstName: "",
-      lastName: "",
-      email: "",
-      description: "",
-      pesel: "",
-      invalidFirstName: false,
-      invalidLastName: false,
-      invalidEmail: false,
-      invalidDescription: false,
-      invaliPesel: false,
       dateOfBirth: "Data urodzenia: ",
       gender: "Płeć: ",
       invalidInputAlert: false,
       msg: "",
+      result: false,
+      toValid: {
+        firstName: {
+          label: "imię",
+          value: "",
+          invalid: false,
+          regex: /^[a-zA-Z]+$/,
+          checkFunction: this.checkFirstName,
+        },
+        lastName: {
+          label: "nazwisko",
+          value: "",
+          invalid: false,
+          regex: /^[a-zA-Z]+$/,
+          checkFunction: this.checkLastName,
+        },
+        email: {
+          label: "email",
+          value: "",
+          invalid: false,
+          regex: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+          checkFunction: this.checkEmail,
+        },
+        description: {
+          label: "opis",
+          value: "",
+          invalid: false,
+          regex: "",
+          checkFunction: this.checkDescription,
+        },
+        pesel: {
+          label: "pesel",
+          value: "",
+          invalid: false,
+          checkFunction: this.checkPesel,
+        },
+      },
     };
   },
-  watch: {
-    firstName() {
-      this.invalidFirstName = !checkFunction(this.firstName, /^[a-zA-Z]+$/);
-    },
-    lastName() {
-      this.invalidLastName = !checkFunction(this.lastName, /^[a-zA-Z]+$/);
-    },
-    email() {
-      this.invalidEmail = !checkFunction(
-        this.email,
-        /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
-      );
-    },
-    description() {
-      this.invalidDescription = !checkFunction(this.description, "");
-    },
-    pesel() {
-      this.invaliPesel = !validatePesel(this.pesel);
-    },
+  mounted() {
+    for (let el in this.toValid) {
+      let key = "toValid." + el + ".value";
+      this.$watch(key, () => {
+        if (el !== "pesel") {
+          this.toValid[el].invalid = !checkFunction(
+            this.toValid[el].value,
+            this.toValid[el].regex
+          );
+        } else {
+          this.toValid[el].invalid = !validatePesel(this.toValid[el].value);
+        }
+      });
+    }
   },
   methods: {
     closeAlertDialog() {
@@ -123,102 +127,70 @@ export default {
       this.invalidInputAlert = false;
     },
     checkFirstName() {
-      this.invalidFirstName = !checkFunction(this.firstName, /^[a-zA-Z]+$/);
+      this.toValid.firstName.invalid = !checkFunction(
+        this.toValid.firstName.value,
+        this.toValid.firstName.regex
+      );
     },
     checkLastName() {
-      this.invalidLastName = !checkFunction(this.lastName, /^[a-zA-Z]+$/);
+      this.toValid.lastName.invalid = !checkFunction(
+        this.toValid.lastName.value,
+        this.toValid.lastName.regex
+      );
     },
     checkEmail() {
-      this.invalidEmail = !checkFunction(
-        this.email,
-        /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+      this.toValid.email.invalid = !checkFunction(
+        this.toValid.email.value,
+        this.toValid.email.regex
       );
     },
     checkDescription() {
-      this.invalidDescription = !checkFunction(this.description, "");
+      this.toValid.description.invalid = !checkFunction(
+        this.toValid.description.value,
+        this.toValid.description.regex
+      );
     },
     checkPesel() {
-      this.invaliPesel = !validatePesel(this.pesel);
+      this.toValid.pesel.invalid = !validatePesel(this.toValid.pesel.value);
     },
     onSubmit() {
-      if (!this.firstName.trim() || this.invalidFirstName) {
-        console.log("sds");
-        this.msg = "Niepoprawne imie!";
-      } else if (!this.lastName.trim() || this.invalidLastName) {
-        this.msg = "Niepoprawne nazwisko!";
-      } else if (!this.email.trim() || this.invalidEmail) {
-        this.msg = "Niepoprawny email!";
-      } else if (!this.description.trim() || this.invalidDescription) {
-        this.msg = "Niepoprawny opis!";
-      } else if (!this.pesel.trim() || this.invaliPesel) {
-        this.msg = "Niepoprawny pesel!";
-      }
+      this.result = false;
+      this.msg = validateInputs(this.toValid);
       if (this.msg) {
         this.invalidInputAlert = true;
         return;
       }
-
-      const elem = document.getElementById("data");
-      if (elem) {
-        elem.remove();
-      }
-
       this.getPeselData();
       this.appendData();
     },
     getPeselData() {
       this.dateOfBirth = "";
-      const yearTemp = +this.pesel.slice(0, 2);
-      let year = 1900 + yearTemp + Math.floor(+this.pesel[2] / 2) * 100;
-      let month = +this.pesel.slice(2, 4);
+      const yearTemp = +this.toValid.pesel.value.slice(0, 2);
+      let year =
+        1900 + yearTemp + Math.floor(+this.toValid.pesel.value[2] / 2) * 100;
+      let month = +this.toValid.pesel.value.slice(2, 4);
       month = month % 20;
-      const day = this.pesel.slice(4, 6);
+      const day = this.toValid.pesel.value.slice(4, 6);
       this.dateOfBirth = `Data urodzenia: ${day}-${
         month < 10 ? "0" + month : month
       }-${year}`;
 
       this.gender = `Płeć: ${
-        +this.pesel.slice(9, 10) % 2 == 0 ? "Kobieta" : "Mężczyzna"
+        +this.toValid.pesel.value.slice(9, 10) % 2 == 0
+          ? "Kobieta"
+          : "Mężczyzna"
       }`;
     },
     appendData() {
-      const el = document.createElement("div");
-      el.setAttribute("id", "data");
-
-      const firstNameEl = document.createElement("p");
-      firstNameEl.innerText = `Imię: ${this.firstName}`;
-      const lastNameEl = document.createElement("p");
-      lastNameEl.innerText = `Nazwisko: ${this.lastName}`;
-      const emailEl = document.createElement("p");
-      emailEl.innerText = `Email: ${this.email}`;
-      const descriptionEl = document.createElement("p");
-      descriptionEl.innerText = `Opis: ${this.description}`;
-      const peselEl = document.createElement("p");
-      peselEl.innerText = `PESEL: ${this.pesel}`;
-      el.appendChild(firstNameEl);
-      el.appendChild(lastNameEl);
-      el.appendChild(emailEl);
-      el.appendChild(descriptionEl);
-      el.appendChild(peselEl);
-
-      const mainEl = document.getElementById("main");
-      mainEl.appendChild(el);
+      this.result = true;
     },
   },
 };
 </script>
 
 <style scoped>
-.main {
-  margin-top: 60px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
 form {
-  width: 30%;
+  width: 100%;
 }
 
 label {
@@ -245,7 +217,7 @@ input {
 }
 
 .disabled-inputs {
-  width: 30%;
+  width: 100%;
 }
 
 .error-msg {

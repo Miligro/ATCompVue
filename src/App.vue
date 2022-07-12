@@ -66,17 +66,42 @@ a {
   color: rgb(255, 255, 255);
 }
 
-.row-end {
+.row-start,
+.row-center,
+.row-end,
+.row-space {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
 }
 
+.row-end {
+  justify-content: flex-end;
+}
+
 .row-center {
-  display: flex;
-  flex-direction: row;
   justify-content: center;
+}
+
+.row-space {
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+}
+
+.main {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
@@ -176,7 +201,7 @@ button {
 
 hr {
   color: black;
-  width: 32%;
+  width: 90%;
 }
 
 .main-page-navs {

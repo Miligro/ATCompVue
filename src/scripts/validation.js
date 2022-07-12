@@ -1,14 +1,14 @@
 // import { createDialog } from "./alertDialog";
 
 export function validateInputs(toValid) {
-  for (key in toValid) {
+  for (let key in toValid) {
     let el = toValid[key];
-    if (!checkFunction(el.elem, el.regex)) {
+    if (!checkFunction(el.value, el.regex) || !el.value.trim()) {
       //   errorDialog(`Podano niepoprawne ${el.label}!`);
-      return false;
+      return el.label;
     }
   }
-  return true;
+  return "";
 }
 
 export function validatePesel(pesel) {
@@ -52,21 +52,4 @@ export function checkFunction(elemVal, regex) {
     return false;
   }
   return true;
-}
-
-function errorDialog(msg) {
-  const errorComponents = [
-    {
-      el: "span",
-      attributes: {
-        class: "error-icon",
-      },
-      innerText: "!",
-    },
-    {
-      el: "p",
-      innerText: msg,
-    },
-  ];
-  createDialog(errorComponents);
 }
