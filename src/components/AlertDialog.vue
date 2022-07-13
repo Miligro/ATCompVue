@@ -3,21 +3,20 @@
     <div v-if="open" class="backdrop" @click="$emit('close')"></div>
     <transition name="modal">
       <dialog open v-if="open">
-        <slot>
-          <div>
-            <div class="row-center">
-              <span :class="iconClass"> {{ icon }} </span>
-            </div>
-            <div class="row-center">
-              <h1>Niepoprawna wartość: {{ msg }}</h1>
-            </div>
-            <div class="row-end">
-              <button @click="$emit('close')" class="close-button">
-                Zamknij
-              </button>
-            </div>
+        <div>
+          <div class="row-center" v-if="icon">
+            <span :class="iconClass"><font-awesome-icon :icon="icon" /> </span>
           </div>
-        </slot>
+          <div class="row-center">
+            <h1>{{ msg }}</h1>
+          </div>
+          <slot> </slot>
+          <div class="row-end">
+            <button @click="$emit('close')" class="close-button">
+              Zamknij
+            </button>
+          </div>
+        </div>
       </dialog>
     </transition>
   </teleport>

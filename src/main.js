@@ -10,14 +10,31 @@ app.use(router);
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 
-import { faMessage, faImages } from "@fortawesome/free-regular-svg-icons";
+import {
+  faMessage,
+  faImages,
+  faPenToSquare,
+} from "@fortawesome/free-regular-svg-icons";
 import { faWpforms } from "@fortawesome/free-brands-svg-icons";
 import {
   faArrowUpLong,
   faArrowDownLong,
+  faTrash,
+  faCheck,
+  faExclamation,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faMessage, faImages, faWpforms, faArrowUpLong, faArrowDownLong);
+library.add(
+  faMessage,
+  faImages,
+  faWpforms,
+  faArrowUpLong,
+  faArrowDownLong,
+  faPenToSquare,
+  faTrash,
+  faCheck,
+  faExclamation
+);
 
 app.component("font-awesome-icon", FontAwesomeIcon);
 app.component("AlertDialog", AlertDialog);

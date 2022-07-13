@@ -4,7 +4,7 @@
     :open="invalidInputAlert"
     :msg="msg"
     iconClass="error-icon"
-    icon="!"
+    icon="fa solid fa-exclamation"
   >
   </alert-dialog>
   <div class="main" id="main">
@@ -131,6 +131,7 @@ export default {
       this.result = false;
       this.msg = validateInputs(this.toValid);
       if (this.msg) {
+        this.msg = "Niepoprawna wartość: " + this.msg;
         this.invalidInputAlert = true;
         return;
       }
