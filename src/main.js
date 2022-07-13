@@ -12,8 +12,12 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 
 import { faMessage, faImages } from "@fortawesome/free-regular-svg-icons";
 import { faWpforms } from "@fortawesome/free-brands-svg-icons";
+import {
+  faArrowUpLong,
+  faArrowDownLong,
+} from "@fortawesome/free-solid-svg-icons";
 
-library.add(faMessage, faImages, faWpforms);
+library.add(faMessage, faImages, faWpforms, faArrowUpLong, faArrowDownLong);
 
 app.component("font-awesome-icon", FontAwesomeIcon);
 app.component("AlertDialog", AlertDialog);

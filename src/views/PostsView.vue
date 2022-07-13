@@ -3,8 +3,8 @@
     <div class="container">
       <h1>Posty</h1>
       <hr />
-      <TheFilters :filters="filters" />
-      <div v-for="post in posts" class="card">
+      <TheFilters :filters="filters" :toFilter="posts" @filter="onFilter" />
+      <div v-for="post in postsToShow" class="card">
         <h2>{{ post.title }}</h2>
         <p>ID Użytkownika: {{ post.userId }}</p>
         <p>{{ post.body }}</p>
@@ -23,25 +23,37 @@ export default {
   data() {
     return {
       posts: [],
+      postsToShow: [],
       postsApi: "https://jsonplaceholder.typicode.com/posts",
-      filters: [
-        {
-          placeholder: "Tytuł",
-          type: "text",
-          id: "title",
+      filters: {
+        rows: {
+          first: [
+            {
+              placeholder: "Tytuł",
+              tag: "input",
+              type: "text",
+              id: "title",
+              value: "",
+            },
+            {
+              placeholder: "ID Użytkownika",
+              tag: "input",
+              type: "number",
+              id: "userId",
+              value: "",
+            },
+          ],
+          second: [
+            {
+              placeholder: "Zawartość",
+              tag: "input",
+              type: "text",
+              id: "body",
+              value: "",
+            },
+          ],
         },
-        {
-          placeholder: "ID Użytkownika",
-          type: "number",
-          id: "userId",
-        },
-        {
-          placeholder: "Zawartość",
-          type: "text",
-          id: "body",
-        },
-        {
-          type: "select",
+        select: {
           options: [
             {
               value: "title",
@@ -58,12 +70,16 @@ export default {
           ],
           id: "sort",
         },
-      ],
+      },
     };
   },
   methods: {
     async getPosts() {
       this.posts = await getAxios(this.postsApi);
+      this.postsToShow = this.posts;
+    },
+    onFilter(posts) {
+      this.postsToShow = posts;
     },
   },
   mounted() {

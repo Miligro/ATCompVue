@@ -57,6 +57,10 @@ export default {
   padding: 0;
 }
 
+body {
+  margin-bottom: 40px;
+}
+
 h2 {
   margin-top: 10px;
 }
