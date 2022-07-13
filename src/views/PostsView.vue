@@ -3,7 +3,13 @@
     <div class="container">
       <h1>Posty</h1>
       <hr />
-      <TheFilters :filters="filters" :toFilter="posts" @filter="onFilter" />
+      <TheFilters
+        v-if="posts.length"
+        :filters="filters"
+        :toFilter="posts"
+        storage="posts"
+        @filter="onFilter"
+      />
       <div v-for="post in postsToShow" class="card">
         <h2>{{ post.title }}</h2>
         <p>ID Użytkownika: {{ post.userId }}</p>
@@ -68,7 +74,7 @@ export default {
               text: "Zawartość",
             },
           ],
-          id: "sort",
+          id: "sortOption",
         },
       },
     };

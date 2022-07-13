@@ -15,7 +15,7 @@
     <button class="reset-filters-button" @click="onResetFilters">
       Resetuj filtry
     </button>
-    <select v-if="filters.select" v-model="sortOption" name="" id="">
+    <select v-if="filters.select" v-model="values[filters.select.id]">
       <option v-for="option in filters.select.options" :value="option.value">
         {{ option.text }}
       </option>
@@ -33,7 +33,7 @@
 
 <script>
 export default {
-  props: ["filters", "toFilter"],
+  props: ["filters", "toFilter", "storage"],
   emits: ["filter"],
   data() {
     return {
@@ -42,11 +42,11 @@ export default {
       icon: "fa-solid fa-arrow-up-long",
       values: [],
       order: "asc",
-      sortOption: "title",
     };
   },
   methods: {
     onFilter() {
+      this.saveStorage();
       let toReturn = this.toFilter;
       for (const key in this.filters.rows) {
         const row = this.filters.rows[key];
@@ -68,17 +68,40 @@ export default {
       }
       if (this.filters.select) {
         toReturn = toReturn.sort((a, b) => {
+          const sortOption = this.values[this.filters.select.id];
           if (this.order === "desc") {
-            return a[this.sortOption] >= b[this.sortOption] ? 1 : -1;
+            return a[sortOption] >= b[sortOption] ? 1 : -1;
           } else {
-            return a[this.sortOption] <= b[this.sortOption] ? 1 : -1;
+            return a[sortOption] <= b[sortOption] ? 1 : -1;
           }
         });
       }
       this.$emit("filter", toReturn);
     },
+    saveStorage() {
+      localStorage.setItem(`${this.storage}_order`, this.order);
+
+      if (this.filters.select) {
+        localStorage.setItem(
+          `${this.storage}_${this.filters.select.id}`,
+          this.values[this.filters.select.id]
+        );
+      }
+      for (const key in this.filters.rows) {
+        const row = this.filters.rows[key];
+        for (const filter of row) {
+          if (this.values[filter.id]) {
+            localStorage.setItem(
+              `${this.storage}_${filter.id}`,
+              this.values[filter.id]
+            );
+          }
+        }
+      }
+    },
     onResetFilters() {
-      this.$emit("filter", this.toFilter);
+      localStorage.clear();
+      this.checkStorage();
     },
     onSort() {
       if (this.order === "asc") {
@@ -106,6 +129,35 @@ export default {
       }
       return toFilter;
     },
+    checkStorage() {
+      if (this.filters.select) {
+        this.values[this.filters.select.id] =
+          this.filters.select.options[0].value;
+      }
+      let value = localStorage.getItem(`${this.storage}_order`);
+      if (value) {
+        this.order = value;
+      } else {
+        this.order = "asc";
+      }
+      this.order === "asc" ? (this.icon = this.asc) : (this.icon = this.desc);
+
+      for (const key in this.filters.rows) {
+        const row = this.filters.rows[key];
+        for (const filter of row) {
+          value = localStorage.getItem(`${this.storage}_${filter.id}`);
+          if (value) {
+            this.values[filter.id] = value;
+          } else {
+            this.values[filter.id] = "";
+          }
+        }
+      }
+      this.onFilter();
+    },
+  },
+  mounted() {
+    this.checkStorage();
   },
 };
 </script>
