@@ -1,40 +1,37 @@
 <template>
-  <alert-dialog @close="closeAlertDialog" :open="invalidInputAlert">
-    <div>
-      <div class="row-center">
-        <span class="error-icon"> ! </span>
-      </div>
-      <div class="row-center">
-        <h1>Niepoprawne {{ msg }}</h1>
-      </div>
-      <div class="row-end">
-        <button @click="closeAlertDialog">Zamknij</button>
-      </div>
-    </div>
+  <alert-dialog
+    @close="closeAlertDialog"
+    :open="invalidInputAlert"
+    :msg="msg"
+    iconClass="error-icon"
+    icon="!"
+  >
   </alert-dialog>
   <div class="main" id="main">
     <div class="container">
       <h1>Formularz</h1>
       <hr />
       <form @submit.prevent="onSubmit">
-        <div v-for="el in toValid">
-          <label for="first-name">{{ el.label }}:</label>
+        <div v-for="(el, name) in toValid">
+          <label :for="name">{{ el.label }}:</label>
           <input
-            type="text"
-            name="first-name"
+            :type="el.type"
+            :name="name"
             v-model="el.value"
             :class="{ errorBorder: el.invalid }"
-            @blur="el.checkFunction"
+            @blur="el.checkFun(el)"
           />
-          <p class="error-msg" v-if="el.invalid">Niepoprawne imię</p>
+          <p class="error-msg" v-if="el.invalid">
+            Niepoprawna wartość {{ el.label }}
+          </p>
         </div>
         <div class="row-end">
           <button>Zapisz</button>
         </div>
       </form>
       <div class="disabled-inputs">
-        <input type="text" disabled v-model="dateOfBirth" />
-        <input type="text" disabled v-model="gender" />
+        <input type="text" disabled :value="dateOfBirth" />
+        <input type="text" disabled :value="gender" />
       </div>
       <FormResult
         v-if="result"
@@ -70,38 +67,43 @@ export default {
       result: false,
       toValid: {
         firstName: {
-          label: "imię",
+          label: "Imię",
           value: "",
           invalid: false,
           regex: /^[a-zA-Z]+$/,
-          checkFunction: this.checkFirstName,
+          type: "text",
+          checkFun: this.checkInput,
         },
         lastName: {
-          label: "nazwisko",
+          label: "Nazwisko",
           value: "",
           invalid: false,
           regex: /^[a-zA-Z]+$/,
-          checkFunction: this.checkLastName,
+          type: "text",
+          checkFun: this.checkInput,
         },
         email: {
-          label: "email",
+          label: "Email",
           value: "",
           invalid: false,
           regex: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-          checkFunction: this.checkEmail,
+          type: "email",
+          checkFun: this.checkInput,
         },
         description: {
-          label: "opis",
+          label: "Opis",
           value: "",
           invalid: false,
           regex: "",
-          checkFunction: this.checkDescription,
+          type: "text",
+          checkFun: this.checkInput,
         },
         pesel: {
-          label: "pesel",
+          label: "PESEL",
           value: "",
           invalid: false,
-          checkFunction: this.checkPesel,
+          type: "text",
+          checkFun: this.checkPesel,
         },
       },
     };
@@ -110,48 +112,20 @@ export default {
     for (let el in this.toValid) {
       let key = "toValid." + el + ".value";
       this.$watch(key, () => {
-        if (el !== "pesel") {
-          this.toValid[el].invalid = !checkFunction(
-            this.toValid[el].value,
-            this.toValid[el].regex
-          );
-        } else {
-          this.toValid[el].invalid = !validatePesel(this.toValid[el].value);
-        }
+        this.toValid[el].invalid = this.toValid[el].checkFun(this.toValid[el]);
       });
     }
   },
   methods: {
+    checkInput(el) {
+      el.invalid = !checkFunction(el.value, el.regex);
+    },
+    checkPesel(el) {
+      this.toValid.pesel.invalid = !validatePesel(el.value);
+    },
     closeAlertDialog() {
       this.msg = "";
       this.invalidInputAlert = false;
-    },
-    checkFirstName() {
-      this.toValid.firstName.invalid = !checkFunction(
-        this.toValid.firstName.value,
-        this.toValid.firstName.regex
-      );
-    },
-    checkLastName() {
-      this.toValid.lastName.invalid = !checkFunction(
-        this.toValid.lastName.value,
-        this.toValid.lastName.regex
-      );
-    },
-    checkEmail() {
-      this.toValid.email.invalid = !checkFunction(
-        this.toValid.email.value,
-        this.toValid.email.regex
-      );
-    },
-    checkDescription() {
-      this.toValid.description.invalid = !checkFunction(
-        this.toValid.description.value,
-        this.toValid.description.regex
-      );
-    },
-    checkPesel() {
-      this.toValid.pesel.invalid = !validatePesel(this.toValid.pesel.value);
     },
     onSubmit() {
       this.result = false;

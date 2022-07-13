@@ -3,7 +3,21 @@
     <div v-if="open" class="backdrop" @click="$emit('close')"></div>
     <transition name="modal">
       <dialog open v-if="open">
-        <slot></slot>
+        <slot>
+          <div>
+            <div class="row-center">
+              <span :class="iconClass"> {{ icon }} </span>
+            </div>
+            <div class="row-center">
+              <h1>Niepoprawna wartość: {{ msg }}</h1>
+            </div>
+            <div class="row-end">
+              <button @click="$emit('close')" class="close-button">
+                Zamknij
+              </button>
+            </div>
+          </div>
+        </slot>
       </dialog>
     </transition>
   </teleport>
@@ -11,7 +25,7 @@
 
 <script>
 export default {
-  props: ["open"],
+  props: ["open", "msg", "iconClass", "icon"],
   emits: ["close"],
 };
 </script>
@@ -46,6 +60,17 @@ dialog {
 .modal-leave-active {
   animation: modal 0.3s ease-in reverse;
 }
+
+.close-button {
+  background-color: gray;
+  padding: 8px;
+  width: 25%;
+}
+
+.close-button:hover {
+  background-color: rgb(99, 99, 99);
+}
+
 @keyframes modal {
   from {
     opacity: 0;
