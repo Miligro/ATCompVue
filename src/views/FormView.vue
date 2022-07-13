@@ -9,7 +9,9 @@
   </alert-dialog>
   <div class="main" id="main">
     <div class="container">
-      <h1>Formularz</h1>
+      <div class="row-center">
+        <h1>Formularz</h1>
+      </div>
       <hr />
       <form @submit.prevent="onSubmit">
         <div v-for="(el, name) in toValid">

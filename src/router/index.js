@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import FormView from "../views/FormView.vue";
 import AlbumsView from "../views/AlbumsView.vue";
+import AlbumView from "../views/AlbumView.vue";
 import PostsView from "../views/PostsView.vue";
 import NotFound from "../views/NotFound.vue";
 
@@ -27,6 +28,11 @@ const router = createRouter({
       path: "/albums",
       name: "albums",
       component: AlbumsView,
+    },
+    {
+      path: "/albums/:id",
+      name: "album",
+      component: AlbumView,
     },
     {
       path: "/:catchAll(.*)",

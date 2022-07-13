@@ -39,7 +39,9 @@
   </alert-dialog>
   <div class="main">
     <div class="container">
-      <h1>Posty</h1>
+      <div class="row-center">
+        <h1>Posty</h1>
+      </div>
       <hr />
       <TheFilters
         v-if="posts.length"

@@ -110,13 +110,11 @@ a {
   width: 30%;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 button {
   cursor: pointer;
   margin-top: 8px;
-  /* align-self: flex-end; */
   border: none;
   background-color: rgb(2, 184, 47);
   font-size: 15px;
