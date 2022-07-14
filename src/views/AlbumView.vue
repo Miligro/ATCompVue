@@ -4,7 +4,9 @@
       <div class="row-center">
         <h1>Zdjęcia z albumu</h1>
       </div>
-      <hr />
+      <div class="row-center">
+        <hr>
+      </div>
     </div>
   </div>
 </template>

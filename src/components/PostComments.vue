@@ -1,5 +1,5 @@
 <template>
-  <div class="comments-card" :id="'comments-' + commentId">
+  <div class="comments-card" :id="'comments-' + commentsId">
     <div class="comment-card" v-for="comment in comments" :key="comment.id">
       <h3>{{ comment.name }}</h3>
       <p>{{ comment.body }}</p>
@@ -11,9 +11,9 @@
 
 <script>
 export default {
-  props: ["comments", "commentId"],
+  props: ["comments", "commentsId"],
   mounted() {
-    const item = document.getElementById(`comments-${this.commentId}`);
+    const item = document.getElementById(`comments-${this.commentsId}`);
     item.style.maxHeight = "100%";
   },
 };

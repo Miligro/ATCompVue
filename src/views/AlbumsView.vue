@@ -4,7 +4,9 @@
       <div class="row-center">
         <h1>Albumy</h1>
       </div>
-      <hr />
+      <div class="row-center">
+        <hr>
+      </div>
       <TheFilters
         v-if="albums.length"
         :filters="filters"

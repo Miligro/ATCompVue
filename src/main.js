@@ -22,6 +22,7 @@ import {
   faTrash,
   faCheck,
   faExclamation,
+  faQuestion
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -33,7 +34,8 @@ library.add(
   faPenToSquare,
   faTrash,
   faCheck,
-  faExclamation
+  faExclamation,
+  faQuestion
 );
 
 app.component("font-awesome-icon", FontAwesomeIcon);

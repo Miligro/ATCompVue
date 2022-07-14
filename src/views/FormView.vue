@@ -1,20 +1,21 @@
 <template>
-  <alert-dialog
+  <InformationDialog
     @close="closeAlertDialog"
     :open="invalidInputAlert"
     :msg="msg"
     iconClass="error-icon"
     icon="fa solid fa-exclamation"
-  >
-  </alert-dialog>
+  />
   <div class="main" id="main">
     <div class="container">
       <div class="row-center">
         <h1>Formularz</h1>
       </div>
-      <hr />
+      <div class="row-center">
+        <hr>
+      </div>
       <form @submit.prevent="onSubmit">
-        <div v-for="(el, name) in toValid">
+        <div v-for="(el, name) in toValid" :key="name">
           <label :for="name">{{ el.label }}:</label>
           <input
             :type="el.type"
@@ -56,9 +57,11 @@ import {
   validateInputs,
 } from "../scripts/validation.js";
 import FormResult from "../components/FormResult.vue";
+import InformationDialog from "../components/dialogs/InformationDialog.vue"
 export default {
   components: {
     FormResult,
+    InformationDialog
   },
   data() {
     return {
