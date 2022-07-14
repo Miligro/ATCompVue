@@ -92,7 +92,6 @@ export default {
         },
         deletePost(){
             this.questionDialog = true;
-            console.log('otwieramy')
         },
         confirmDelete(){
           deletePost(this.post.id).then((res)=>{

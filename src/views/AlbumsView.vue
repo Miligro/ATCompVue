@@ -27,7 +27,7 @@
 
 <script>
 import TheFilters from "../components/TheFilters.vue";
-import { getAxios } from "../scripts/api";
+import { getAlbums } from "../scripts/albumsApi"
 export default {
   components: {
     TheFilters,
@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     async getAlbmus() {
-      this.albums = await getAxios(this.albmusApi);
+      this.albums = await getAlbums();
       this.albumsToShow = this.albums;
     },
     onFilter(albums) {
