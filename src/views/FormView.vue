@@ -12,7 +12,7 @@
         <h1>Formularz</h1>
       </div>
       <div class="row-center">
-        <hr>
+        <hr />
       </div>
       <form @submit.prevent="onSubmit">
         <div v-for="(el, name) in toValid" :key="name">
@@ -36,16 +36,7 @@
         <input type="text" disabled :value="dateOfBirth" />
         <input type="text" disabled :value="gender" />
       </div>
-      <FormResult
-        v-if="result"
-        :result="{
-          firstName: toValid.firstName.value,
-          lastName: toValid.lastName.value,
-          email: toValid.email.value,
-          description: toValid.description.value,
-          pesel: toValid.pesel.value,
-        }"
-      ></FormResult>
+      <FormResult v-if="result" :result="result"></FormResult>
     </div>
   </div>
 </template>
@@ -57,11 +48,11 @@ import {
   validateInputs,
 } from "../scripts/validation.js";
 import FormResult from "../components/FormResult.vue";
-import InformationDialog from "../components/dialogs/InformationDialog.vue"
+import InformationDialog from "../components/dialogs/InformationDialog.vue";
 export default {
   components: {
     FormResult,
-    InformationDialog
+    InformationDialog,
   },
   data() {
     return {
@@ -117,7 +108,7 @@ export default {
     for (let el in this.toValid) {
       let key = "toValid." + el + ".value";
       this.$watch(key, () => {
-        this.toValid[el].invalid = this.toValid[el].checkFun(this.toValid[el]);
+        this.toValid[el].checkFun(this.toValid[el]);
       });
     }
   },
@@ -126,7 +117,7 @@ export default {
       el.invalid = !checkFunction(el.value, el.regex);
     },
     checkPesel(el) {
-      this.toValid.pesel.invalid = !validatePesel(el.value);
+      el.invalid = !validatePesel(el.value);
     },
     closeAlertDialog() {
       this.msg = "";
@@ -162,7 +153,13 @@ export default {
       }`;
     },
     appendData() {
-      this.result = true;
+      this.result = {
+        firstName: this.toValid.firstName.value,
+        lastName: this.toValid.lastName.value,
+        email: this.toValid.email.value,
+        description: this.toValid.description.value,
+        pesel: this.toValid.pesel.value,
+      };
     },
   },
 };

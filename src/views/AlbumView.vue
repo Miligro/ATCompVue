@@ -5,32 +5,35 @@
         <h1>Zdjęcia z albumu</h1>
       </div>
       <div class="row-center">
-        <hr>
+        <hr />
       </div>
     </div>
-      <TheSlider v-if="photos.length" :images="photos"/>
+    <TheSlider v-if="photos" :images="photos" />
+  </div>
+  <div class="loading-small" v-if="!photos">
+    <TheLoader />
   </div>
 </template>
 
 <script>
-import { getPhotos } from "../scripts/albumsApi"
-import TheSlider from "../components/TheSlider.vue"
+import { getPhotos } from "../scripts/albumsApi";
+import TheSlider from "../components/TheSlider.vue";
 export default {
   components: {
-    TheSlider
+    TheSlider,
   },
-  data(){
-    return{
-      photos: [],
-    }  
+  data() {
+    return {
+      photos: null,
+    };
   },
   methods: {
-    async getPhotos(){
-      this.photos = await getPhotos(+this.$route.params.id)
-    }
+    async getPhotos() {
+      this.photos = await getPhotos(+this.$route.params.id);
+    },
   },
-  mounted(){
+  mounted() {
     this.getPhotos();
-  }  
-}
+  },
+};
 </script>

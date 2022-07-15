@@ -1,6 +1,10 @@
 <template>
   <div class="comments-card" :id="'comments-' + commentsId">
-    <div class="comment-card" v-for="comment in comments" :key="comment.id">
+    <div
+      class="comment-card"
+      v-for="comment in locallyComments"
+      :key="comment.id"
+    >
       <h3>{{ comment.name }}</h3>
       <p>{{ comment.body }}</p>
       <p class="small-font">{{ comment.email }}</p>
@@ -12,9 +16,21 @@
 <script>
 export default {
   props: ["comments", "commentsId"],
-  mounted() {
-    const item = document.getElementById(`comments-${this.commentsId}`);
-    item.style.maxHeight = "100%";
+  data() {
+    return {
+      locallyComments: null,
+    };
+  },
+  watch: {
+    comments() {
+      if (this.comments) {
+        this.locallyComments = this.comments;
+      }
+      const item = document.getElementById(`comments-${this.commentsId}`);
+      setTimeout(() => {
+        item.style.maxHeight = this.comments ? `${item.scrollHeight}px` : 0;
+      }, 100);
+    },
   },
 };
 </script>

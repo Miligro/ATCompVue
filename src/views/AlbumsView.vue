@@ -5,15 +5,18 @@
         <h1>Albumy</h1>
       </div>
       <div class="row-center">
-        <hr>
+        <hr />
       </div>
       <TheFilters
-        v-if="albums.length"
+        v-if="albums"
         :filters="filters"
         :toFilter="albums"
         storage="albmus"
         @filter="onFilter"
       />
+      <div class="loading-small" v-else>
+        <TheLoader />
+      </div>
       <div class="card" v-for="album in albums" :key="album.id">
         <RouterLink :to="`${$route.path}/${album.id}`" class="card-as-btn">
           <h2>{{ album.title }}</h2>
@@ -27,15 +30,15 @@
 
 <script>
 import TheFilters from "../components/TheFilters.vue";
-import { getAlbums } from "../scripts/albumsApi"
+import { getAlbums } from "../scripts/albumsApi";
 export default {
   components: {
     TheFilters,
   },
   data() {
     return {
-      albums: [],
-      albumsToShow: [],
+      albums: null,
+      albumsToShow: null,
       albmusApi: "https://jsonplaceholder.typicode.com/albums",
       filters: {
         rows: {

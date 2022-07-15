@@ -1,8 +1,8 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import AlertDialog from "./components/AlertDialog.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import TheLoader from "./components/TheLoader.vue";
 
 const app = createApp(App);
 
@@ -24,7 +24,7 @@ import {
   faExclamation,
   faQuestion,
   faAngleLeft,
-  faAngleRight
+  faAngleRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -43,6 +43,6 @@ library.add(
 );
 
 app.component("font-awesome-icon", FontAwesomeIcon);
-app.component("AlertDialog", AlertDialog);
+app.component("TheLoader", TheLoader);
 
 app.mount("#app");

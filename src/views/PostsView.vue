@@ -5,23 +5,25 @@
         <h1>Posty</h1>
       </div>
       <div class="row-center">
-        <hr>
+        <hr />
       </div>
       <TheFilters
-        v-if="posts.length"
+        v-if="postsToShow"
         :filters="filters"
         :toFilter="posts"
         storage="posts"
         @filter="onFilter"
       />
-      <PostCard v-for="post in postsToShow" :key="post.id" :post="post"/>
+      <div class="loading-small" v-else>
+        <TheLoader />
+      </div>
+      <PostCard v-for="post in postsToShow" :key="post.id" :post="post" />
     </div>
   </div>
 </template>
 
 <script>
-import { deleteAxios, getAxios, updateAxios } from "../scripts/api";
-import { getPosts } from '../scripts/postsApi'
+import { getPosts } from "../scripts/postsApi";
 import TheFilters from "../components/TheFilters.vue";
 import PostCard from "../components/PostCard.vue";
 export default {
@@ -31,8 +33,8 @@ export default {
   },
   data() {
     return {
-      posts: [],
-      postsToShow: [],
+      posts: null,
+      postsToShow: null,
       filters: {
         rows: {
           first: [

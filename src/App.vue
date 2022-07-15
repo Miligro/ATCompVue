@@ -27,6 +27,10 @@ export default {
       ],
     };
   },
+  mounted() {
+    const pageLoader = document.getElementById("page-loader");
+    pageLoader.remove();
+  },
 };
 </script>
 
@@ -45,6 +49,9 @@ export default {
       </RouterLink>
     </nav>
   </header>
+  <div class="loading" v-if="loading">
+    <TheLoader />
+  </div>
   <RouterView />
 </template>
 
@@ -72,6 +79,39 @@ a {
 
 .white-icon {
   color: white;
+}
+
+.loading,
+.loading-small {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  top: 0;
+  display: flex;
+  background-color: white;
+  flex-direction: column;
+  color: black;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+}
+
+.loading-small {
+  margin: 30px 0;
+  position: relative;
+}
+
+.loading {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  display: flex;
+  background-color: white;
+  flex-direction: column;
+  color: black;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
 }
 
 .row-start,
@@ -158,6 +198,7 @@ button {
   position: fixed;
   justify-content: space-between;
   padding: 20px;
+  z-index: 10;
   /* border-bottom: 1px solid black; */
 }
 
@@ -180,6 +221,7 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 10;
 }
 
 .side-nav a {
