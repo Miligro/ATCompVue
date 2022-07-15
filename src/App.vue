@@ -1,6 +1,28 @@
+<template>
+  <header>
+    <nav class="head-nav">
+      <div
+        :class="{ 'menu-button': true, 'menu-active': sideNavOpen }"
+        @click="toggleSideNav"
+      >
+        <div class="hamburger hamburger-bar" />
+      </div>
+      <a href="https://github.com/Miligro/ATCompVue">GitHub</a>
+    </nav>
+    <nav class="side-nav" id="side-nav">
+      <RouterLink v-for="nav in navs" :key="nav.to" :to="nav.to">
+        <div class="navigation-con main-page-nav">
+          <p>{{ nav.text }}</p>
+          <font-awesome-icon class="white-icon" :icon="nav.icon" />
+        </div>
+      </RouterLink>
+    </nav>
+  </header>
+  <RouterView />
+</template>
+
 <script>
 import { RouterLink, RouterView } from "vue-router";
-
 export default {
   components: {
     RouterView,
@@ -8,6 +30,7 @@ export default {
   },
   data() {
     return {
+      sideNavOpen: true,
       navs: [
         {
           text: "Formularz",
@@ -27,33 +50,23 @@ export default {
       ],
     };
   },
+  methods: {
+    toggleSideNav() {
+      const sideNav = document.getElementById("side-nav");
+      if (this.sideNavOpen) {
+        sideNav.style.width = "0px";
+      } else {
+        sideNav.style.width = "200px";
+      }
+      this.sideNavOpen = !this.sideNavOpen;
+    },
+  },
   mounted() {
     const pageLoader = document.getElementById("page-loader");
     pageLoader.remove();
   },
 };
 </script>
-
-<template>
-  <header>
-    <nav class="head-nav">
-      <RouterLink to="/"><h2>My page</h2></RouterLink>
-      <a href="https://github.com/Miligro/ATCompVue">GitHub</a>
-    </nav>
-    <nav class="side-nav" id="side-nav">
-      <RouterLink v-for="nav in navs" :key="nav.to" :to="nav.to">
-        <div class="navigation-con main-page-nav">
-          <p>{{ nav.text }}</p>
-          <font-awesome-icon class="white-icon" :icon="nav.icon" />
-        </div>
-      </RouterLink>
-    </nav>
-  </header>
-  <div class="loading" v-if="loading">
-    <TheLoader />
-  </div>
-  <RouterView />
-</template>
 
 <style>
 @import "@/assets/base.css";
@@ -79,6 +92,60 @@ a {
 
 .white-icon {
   color: white;
+}
+
+.menu-button {
+  top: 15px;
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+  position: relative;
+}
+
+.menu-button:hover {
+  transform: scale(1.05);
+}
+
+.hamburger {
+  width: 40px;
+  height: 5px;
+  background-color: white;
+}
+
+.hamburger::after {
+  top: 12px;
+}
+
+.hamburger::before {
+  top: -12px;
+}
+
+.hamburger-bar {
+  transition: 0.5s;
+}
+
+.hamburger-bar::before,
+.hamburger-bar::after {
+  content: "";
+  width: 40px;
+  height: 5px;
+  background: #ffffff;
+  transition: 0.5s;
+  position: absolute;
+}
+
+.menu-active .hamburger-bar {
+  background: rgba(0, 0, 0, 0);
+}
+
+.menu-button.menu-active .hamburger-bar::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.menu-button.menu-active .hamburger-bar::after {
+  top: 0;
+  transform: rotate(135deg);
 }
 
 .loading,
@@ -144,6 +211,7 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 0 20px;
 }
 
 .container {
@@ -222,6 +290,8 @@ button {
   flex-direction: column;
   align-items: center;
   z-index: 10;
+  overflow: hidden;
+  transition: width 0.5s ease;
 }
 
 .side-nav a {

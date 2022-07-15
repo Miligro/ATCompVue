@@ -8,7 +8,7 @@
         <hr />
       </div>
     </div>
-    <TheSlider v-if="photos" :images="photos" />
+    <TheSlider2 v-if="photos" :images="photos" />
   </div>
   <div class="loading-small" v-if="!photos">
     <TheLoader />
@@ -17,10 +17,10 @@
 
 <script>
 import { getPhotos } from "../scripts/albumsApi";
-import TheSlider from "../components/TheSlider.vue";
+import TheSlider2 from "../components/TheSlider2.vue";
 export default {
   components: {
-    TheSlider,
+    TheSlider2,
   },
   data() {
     return {

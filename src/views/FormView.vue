@@ -33,7 +33,7 @@
         </div>
       </form>
       <div class="disabled-inputs">
-        <input type="text" disabled :value="dateOfBirth" />
+        <input type="text" disabled :value="`Data urodzenia: ${dateOfBirth}`" />
         <input type="text" disabled :value="gender" />
       </div>
       <FormResult v-if="result" :result="result"></FormResult>
@@ -56,8 +56,8 @@ export default {
   },
   data() {
     return {
-      dateOfBirth: "Data urodzenia: ",
-      gender: "Płeć: ",
+      dateOfBirth: null,
+      gender: null,
       invalidInputAlert: false,
       msg: "",
       result: false,
@@ -105,7 +105,7 @@ export default {
     };
   },
   mounted() {
-    for (let el in this.toValid) {
+    for (const el in this.toValid) {
       let key = "toValid." + el + ".value";
       this.$watch(key, () => {
         this.toValid[el].checkFun(this.toValid[el]);
@@ -135,30 +135,28 @@ export default {
       this.appendData();
     },
     getPeselData() {
-      this.dateOfBirth = "";
+      this.dateOfBirth = null;
       const yearTemp = +this.toValid.pesel.value.slice(0, 2);
       let year =
         1900 + yearTemp + Math.floor(+this.toValid.pesel.value[2] / 2) * 100;
       let month = +this.toValid.pesel.value.slice(2, 4);
       month = month % 20;
       const day = this.toValid.pesel.value.slice(4, 6);
-      this.dateOfBirth = `Data urodzenia: ${day}-${
-        month < 10 ? "0" + month : month
-      }-${year}`;
+      this.dateOfBirth = `${day}-${month < 10 ? "0" + month : month}-${year}`;
 
-      this.gender = `Płeć: ${
+      this.gender =
         +this.toValid.pesel.value.slice(9, 10) % 2 == 0
           ? "Kobieta"
-          : "Mężczyzna"
-      }`;
+          : "Mężczyzna";
     },
     appendData() {
+      const data = this.toValid;
       this.result = {
-        firstName: this.toValid.firstName.value,
-        lastName: this.toValid.lastName.value,
-        email: this.toValid.email.value,
-        description: this.toValid.description.value,
-        pesel: this.toValid.pesel.value,
+        [data.firstName.label]: data.firstName.value,
+        [data.lastName.label]: data.lastName.value,
+        [data.email.label]: data.email.value,
+        [data.description.label]: data.description.value,
+        [data.pesel.label]: data.pesel.value,
       };
     },
   },
@@ -187,6 +185,10 @@ input {
   margin-top: 8px;
   display: block;
   width: 100%;
+}
+
+input.errorBorder:focus {
+  outline: 1px solid red;
 }
 
 .errorBorder {

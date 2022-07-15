@@ -3,9 +3,14 @@
 export function validateInputs(toValid) {
   for (let key in toValid) {
     let el = toValid[key];
-    if (!checkFunction(el.value, el.regex) || !el.value.trim()) {
-      //   errorDialog(`Podano niepoprawne ${el.label}!`);
-      return el.label;
+    if (el.regex !== undefined) {
+      if (!checkFunction(el.value, el.regex) || !el.value.trim()) {
+        return el.label;
+      }
+    } else {
+      if (!validatePesel(el.value)) {
+        return el.label;
+      }
     }
   }
   return "";
@@ -14,7 +19,6 @@ export function validateInputs(toValid) {
 export function validatePesel(pesel) {
   const regex = /^[0-9]/;
   if (pesel.length !== 11 || !regex.test(pesel)) {
-    // errorDialog(`Podano niepoprawny pesel!`);
     return false;
   }
   let sum = 0;
@@ -36,7 +40,6 @@ export function validatePesel(pesel) {
     +pesel.slice(4, 6) > 31 ||
     +pesel.slice(2, 4) % 20 > 12
   ) {
-    // errorDialog(`Podano niepoprawny pesel!`);
     return false;
   }
   return true;

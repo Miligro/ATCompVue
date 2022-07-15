@@ -19,17 +19,20 @@ export default {
   data() {
     return {
       locallyComments: null,
+      content: null,
     };
+  },
+  mounted() {
+    this.content = document.getElementById(`comments-${this.commentsId}`);
   },
   watch: {
     comments() {
       if (this.comments) {
         this.locallyComments = this.comments;
       }
-      const item = document.getElementById(`comments-${this.commentsId}`);
-      setTimeout(() => {
-        item.style.maxHeight = this.comments ? `${item.scrollHeight}px` : 0;
-      }, 100);
+      this.content.style.maxHeight = this.comments
+        ? `${500 * this.comments.length}px`
+        : 0;
     },
   },
 };

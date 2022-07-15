@@ -1,11 +1,11 @@
 <template>
-  <teleport to="body">
-    <div v-if="editComponent" class="backdrop" @click="$emit('close')"></div>
+  <teleport to="body" v-if="editComponent">
+    <div class="backdrop" @click="$emit('close')"></div>
     <transition name="modal">
-      <dialog open v-if="editComponent">
-        <component :item="item" :is="editComponent" @response="response"/>
+      <dialog open>
+        <component :item="item" :is="editComponent" @response="response" />
         <div class="row-end">
-        <button @click="$emit('close')" class='close-button'>Zamknij</button>
+          <button @click="$emit('close')" class="close-button">Zamknij</button>
         </div>
       </dialog>
     </transition>
@@ -13,25 +13,25 @@
 </template>
 
 <script>
-import EditPost from '../EditPost.vue'
+import EditPost from "../EditPost.vue";
 export default {
-  components: {EditPost},
+  components: { EditPost },
   props: {
     item: {
       type: Object,
       default: {},
     },
-    editComponent:{
+    editComponent: {
       type: String,
       required: true,
-    }
-  }, 
+    },
+  },
   emits: ["close", "response"],
-  methods:{
-    response(res){
-      this.$emit('response', res)
-    }
-  }
+  methods: {
+    response(...res) {
+      this.$emit("response", ...res);
+    },
+  },
 };
 </script>
 
