@@ -1,32 +1,21 @@
 <template>
-  <teleport to="body">
-    <div v-if="open" class="backdrop" @click="$emit('close')"></div>
-    <transition name="modal">
-      <dialog open v-if="open">
-        <div>
-          <div class="row-center">
-            <span class="ask-icon"
-              ><font-awesome-icon icon="fa-solid fa-question" />
-            </span>
-          </div>
-          <div class="row-center">
-            <h1>{{ msg }}</h1>
-          </div>
-          <slot> </slot>
-          <div class="row-end">
-            <button @click="$emit('close')" class="close-button">
-              Zamknij
-            </button>
-            <button @click="$emit('confirm')">Zatwierdź</button>
-          </div>
-        </div>
-      </dialog>
-    </transition>
-  </teleport>
+  <InformationDialog
+    :open="open"
+    :msg="msg"
+    :icon="icon"
+    :icon-class="iconClass"
+    @close="$emit('close')"
+  >
+    <button @click="$emit('confirm')">Zatwierdź</button>
+  </InformationDialog>
 </template>
 
 <script>
+import InformationDialog from './InformationDialog.vue'
 export default {
+  components: {
+    InformationDialog,
+  },
   props: {
     open: {
       type: Boolean,
@@ -35,6 +24,14 @@ export default {
     msg: {
       type: String,
       default: '',
+    },
+    iconClass: {
+      type: String,
+      default: 'success-icon',
+    },
+    icon: {
+      type: String,
+      default: 'fa-solid fa-check',
     },
   },
   emits: ['close', 'confirm'],

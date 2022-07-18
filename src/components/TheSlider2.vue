@@ -1,5 +1,5 @@
 <template>
-  <div class="row-center" id="slider-and-buttons">
+  <div id="slider-and-buttons" class="row-center">
     <font-awesome-icon
       v-if="imagesNum > 1"
       icon="fa-solid fa-angle-left"

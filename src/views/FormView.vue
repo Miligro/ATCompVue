@@ -1,12 +1,5 @@
 <template>
-  <InformationDialog
-    @close="closeAlertDialog"
-    :open="invalidInputAlert"
-    :msg="msg"
-    iconClass="error-icon"
-    icon="fa solid fa-exclamation"
-  />
-  <div class="main" id="main">
+  <div id="main" class="main">
     <div class="container">
       <div class="row-center">
         <h1>Formularz</h1>
@@ -18,48 +11,40 @@
         <div v-for="(el, name) in toValid" :key="name">
           <label :for="name">{{ el.label }}:</label>
           <input
+            v-model="el.value"
             :type="el.type"
             :name="name"
-            v-model="el.value"
             :class="{ errorBorder: el.invalid }"
             @blur="el.checkFun(el)"
           />
-          <p class="error-msg" v-if="el.invalid">
-            Niepoprawna wartość {{ el.label }}
-          </p>
+          <p v-if="el.invalid" class="error-msg">Niepoprawna wartość {{ el.label }}</p>
         </div>
         <div class="row-end">
           <button>Zapisz</button>
         </div>
       </form>
       <div class="disabled-inputs">
-        <input type="text" disabled :value="`Data urodzenia: ${dateOfBirth}`" />
-        <input type="text" disabled :value="gender" />
+        <input type="text" disabled :value="dateOfBirth ? `Data urodzenia: ${dateOfBirth}` : ''" />
+        <input type="text" disabled :value="gender ? `Płeć: ${gender}` : ''" />
       </div>
-      <FormResult v-if="result" :result="result"></FormResult>
+      <FormResult v-if="result" :result="result" />
     </div>
   </div>
 </template>
 
 <script>
-import {
-  checkFunction,
-  validatePesel,
-  validateInputs,
-} from '../scripts/validation.js'
+import { checkFunction, validatePesel, validateInputs } from '../scripts/validation.js'
 import FormResult from '../components/FormResult.vue'
-import InformationDialog from '../components/dialogs/InformationDialog.vue'
+import { useDialogStore } from '../stores/dialog.js'
 export default {
   components: {
     FormResult,
-    InformationDialog,
   },
   data() {
     return {
       dateOfBirth: null,
       gender: null,
-      invalidInputAlert: false,
-      msg: '',
+      dialogStore: useDialogStore(),
       result: false,
       toValid: {
         firstName: {
@@ -82,7 +67,7 @@ export default {
           label: 'Email',
           value: '',
           invalid: false,
-          regex: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+          regex: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
           type: 'email',
           checkFun: this.checkInput,
         },
@@ -119,16 +104,12 @@ export default {
     checkPesel(el) {
       el.invalid = !validatePesel(el.value)
     },
-    closeAlertDialog() {
-      this.msg = ''
-      this.invalidInputAlert = false
-    },
     onSubmit() {
       this.result = false
       this.msg = validateInputs(this.toValid)
       if (this.msg) {
         this.msg = 'Niepoprawna wartość: ' + this.msg
-        this.invalidInputAlert = true
+        this.dialogStore.setInformationDialog(this.msg, 'fa-solid fa-exclamation', 'error-icon')
         return
       }
       this.getPeselData()
@@ -137,17 +118,13 @@ export default {
     getPeselData() {
       this.dateOfBirth = null
       const yearTemp = +this.toValid.pesel.value.slice(0, 2)
-      let year =
-        1900 + yearTemp + Math.floor(+this.toValid.pesel.value[2] / 2) * 100
+      let year = 1900 + yearTemp + Math.floor(+this.toValid.pesel.value[2] / 2) * 100
       let month = +this.toValid.pesel.value.slice(2, 4)
       month = month % 20
       const day = this.toValid.pesel.value.slice(4, 6)
       this.dateOfBirth = `${day}-${month < 10 ? '0' + month : month}-${year}`
 
-      this.gender =
-        +this.toValid.pesel.value.slice(9, 10) % 2 == 0
-          ? 'Kobieta'
-          : 'Mężczyzna'
+      this.gender = +this.toValid.pesel.value.slice(9, 10) % 2 == 0 ? 'Kobieta' : 'Mężczyzna'
     },
     appendData() {
       const data = this.toValid

@@ -1,24 +1,4 @@
 <template>
-  <EditDialog
-    @close="closeDialogs"
-    :editComponent="editComponent"
-    :item="post"
-    @response="response"
-  />
-  <QuestionDialog
-    @close="closeDialogs"
-    :open="questionDialog"
-    msg="Czy chcesz usunąć ten post?"
-    @confirm="confirmDelete"
-  />
-  <InformationDialog
-    @close="closeDialogs"
-    :open="informationDialog"
-    :icon="icon"
-    :iconClass="iconClass"
-    :msg="infMsg"
-  />
-
   <div class="post-container">
     <div class="card">
       <h2>{{ post.title }}</h2>
@@ -26,11 +6,7 @@
       <p>{{ post.body }}</p>
       <div class="row-space">
         <div class="row-start">
-          <font-awesome-icon
-            class="manage-icon"
-            icon="fa-solid fa-trash"
-            @click="deletePost"
-          />
+          <font-awesome-icon class="manage-icon" icon="fa-solid fa-trash" @click="deletePost" />
           <font-awesome-icon
             class="manage-icon"
             icon="fa-regular fa-pen-to-square"
@@ -39,9 +15,7 @@
         </div>
         <button @click="toggleComments">
           Komentarze
-          <font-awesome-icon
-            :icon="`fa-solid fa-arrow-${comments ? 'down' : 'up'}-long`"
-          />
+          <font-awesome-icon :icon="`fa-solid fa-arrow-${comments ? 'down' : 'up'}-long`" />
         </button>
       </div>
     </div>
@@ -51,16 +25,11 @@
 
 <script>
 import PostComments from './PostComments.vue'
-import EditDialog from '../components/dialogs/EditDialog.vue'
-import QuestionDialog from '../components/dialogs/QuestionDialog.vue'
-import InformationDialog from '../components/dialogs/InformationDialog.vue'
+import { useDialogStore } from '../stores/dialog'
 import { getComments, deletePost } from '../scripts/postsApi.js'
 export default {
   components: {
     PostComments,
-    EditDialog,
-    QuestionDialog,
-    InformationDialog,
   },
   props: {
     post: {
@@ -70,38 +39,37 @@ export default {
   },
   data() {
     return {
-      showComments: false,
       comments: null,
-      editComponent: '',
-      questionDialog: false,
-      informationDialog: false,
-      infMsg: '',
-      icon: '',
-      iconClass: '',
+      dialogStore: useDialogStore(),
     }
   },
   methods: {
     editPost() {
-      this.editComponent = 'EditPost'
+      this.dialogStore.setEditDialog('EditPost', this.post, this.response)
     },
     deletePost() {
-      this.questionDialog = true
+      this.dialogStore.setQuestionDialog(
+        'Czy chcesz usunąc post?',
+        this.confirmDelete,
+        'fa-solid fa-question',
+        'error-icon'
+      )
     },
     confirmDelete() {
       deletePost(this.post.id).then((res) => {
         if (res) {
-          this.success('Post został usunięty')
+          this.dialogStore.success('Usunięto post!')
         } else {
-          this.error('Post nie został usunięty')
+          this.dialogStore.error('Ups, coś poszło nie tak!')
         }
-        this.closeDialogs()
-        this.informationDialog = true
       })
     },
-    closeDialogs() {
-      this.editComponent = ''
-      this.questionDialog = false
-      this.informationDialog = false
+    response(res) {
+      if (res) {
+        this.dialogStore.success('Poprawnie edytowano post')
+      } else {
+        this.dialogStore.error('Nie udało się edytować posta!')
+      }
     },
     async toggleComments() {
       if (!this.comments) {
@@ -109,25 +77,6 @@ export default {
       } else {
         this.comments = null
       }
-    },
-    response(res) {
-      if (res) {
-        this.success('Poprawnie edytowano post')
-      } else {
-        this.error('Nie udało się edytować posta!')
-      }
-      this.closeDialogs()
-      this.informationDialog = true
-    },
-    success(msg) {
-      this.infMsg = msg
-      this.icon = 'fa-solid fa-check'
-      this.iconClass = 'success-icon'
-    },
-    error(msg) {
-      this.infMsg = msg
-      this.icon = 'fa-solid fa-exclamation'
-      this.iconClass = 'error-icon'
     },
   },
 }
@@ -150,6 +99,7 @@ export default {
 }
 
 .card {
+  z-index: 5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -162,6 +112,7 @@ export default {
   box-shadow: 0 0 8px black;
   text-align: center;
   color: black;
+  background-color: #ffffffbb;
 }
 
 .card h2 {

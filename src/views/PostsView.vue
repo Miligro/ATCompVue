@@ -10,11 +10,11 @@
       <TheFilters
         v-if="postsToShow"
         :filters="filters"
-        :toFilter="posts"
+        :to-filter="posts"
         storage="posts"
         @filter="onFilter"
       />
-      <div class="loading-small" v-else>
+      <div v-else class="loading-small">
         <TheLoader />
       </div>
       <PostCard v-for="post in postsToShow" :key="post.id" :post="post" />
@@ -83,6 +83,9 @@ export default {
       },
     }
   },
+  mounted() {
+    this.getPosts()
+  },
   methods: {
     async getPosts() {
       this.posts = await getPosts()
@@ -91,9 +94,6 @@ export default {
     onFilter(posts) {
       this.postsToShow = posts
     },
-  },
-  mounted() {
-    this.getPosts()
   },
 }
 </script>

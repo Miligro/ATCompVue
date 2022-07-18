@@ -8,6 +8,11 @@
   background-color: rgba(0, 0, 0, 0.75);
 }
 
+h1 {
+  margin: 10px 0;
+  font-size: 25px;
+}
+
 dialog {
   position: fixed;
   top: 30vh;

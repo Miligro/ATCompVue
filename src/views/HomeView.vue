@@ -1,6 +1,5 @@
 <script setup>
 import { RouterLink } from 'vue-router'
-import TheLoader from '../components/TheLoader.vue'
 </script>
 
 <template>
@@ -39,5 +38,9 @@ import TheLoader from '../components/TheLoader.vue'
 
 hr {
   width: 80%;
+}
+
+.container {
+  align-items: center;
 }
 </style>

@@ -1,43 +1,11 @@
 <template>
   <div class="width-100">
-    <div class="row-space">
+    <div v-for="res in Object.keys(result)" :key="res" class="row-space">
       <div class="row-center">
-        <h3>Imię:</h3>
+        <h3>{{ res }}</h3>
       </div>
       <div class="row-center">
-        <p>{{ result.firstName }}</p>
-      </div>
-    </div>
-    <div class="row-space">
-      <div class="row-center">
-        <h3>Nazwisko:</h3>
-      </div>
-      <div class="row-center">
-        <p>{{ result.lastName }}</p>
-      </div>
-    </div>
-    <div class="row-space">
-      <div class="row-center">
-        <h3>Email:</h3>
-      </div>
-      <div class="row-center">
-        <p>{{ result.email }}</p>
-      </div>
-    </div>
-    <div class="row-space">
-      <div class="row-center">
-        <h3>Opis:</h3>
-      </div>
-      <div class="row-center">
-        <p>{{ result.description }}</p>
-      </div>
-    </div>
-    <div class="row-space">
-      <div class="row-center">
-        <h3>PESEL:</h3>
-      </div>
-      <div class="row-center">
-        <p>{{ result.pesel }}</p>
+        <p>{{ result[res] }}</p>
       </div>
     </div>
   </div>

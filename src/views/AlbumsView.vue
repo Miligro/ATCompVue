@@ -10,14 +10,14 @@
       <TheFilters
         v-if="albums"
         :filters="filters"
-        :toFilter="albums"
+        :to-filter="albums"
         storage="albmus"
         @filter="onFilter"
       />
-      <div class="loading-small" v-else>
+      <div v-else class="loading-small">
         <TheLoader />
       </div>
-      <div class="card" v-for="album in albums" :key="album.id">
+      <div v-for="album in albums" :key="album.id">
         <RouterLink :to="`${$route.path}/${album.id}`" class="card-as-btn">
           <h2>{{ album.title }}</h2>
           <p>ID Użytkownika: {{ album.userId }}</p>
@@ -75,6 +75,9 @@ export default {
       },
     }
   },
+  mounted() {
+    this.getAlbmus()
+  },
   methods: {
     async getAlbmus() {
       this.albums = await getAlbums()
@@ -83,9 +86,6 @@ export default {
     onFilter(albums) {
       this.albumsToShow = albums
     },
-  },
-  mounted() {
-    this.getAlbmus()
   },
 }
 </script>
@@ -105,6 +105,7 @@ export default {
   box-shadow: 0 0 8px black;
   text-align: center;
   color: black;
+  background-color: #ffffffbb;
 }
 .card-as-btn h2 {
   margin-top: 0px;

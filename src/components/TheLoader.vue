@@ -1,14 +1,14 @@
 <template>
   <h2>Wczytywanie</h2>
   <div class="loading-items">
-    <div class="loading-item-1"></div>
-    <div class="loading-item-2"></div>
-    <div class="loading-item-3"></div>
-    <div class="loading-item-4"></div>
-    <div class="loading-item-5"></div>
-    <div class="loading-item-6"></div>
-    <div class="loading-item-7"></div>
-    <div class="loading-item-8"></div>
+    <div class="loading-item-1" />
+    <div class="loading-item-2" />
+    <div class="loading-item-3" />
+    <div class="loading-item-4" />
+    <div class="loading-item-5" />
+    <div class="loading-item-6" />
+    <div class="loading-item-7" />
+    <div class="loading-item-8" />
   </div>
 </template>
 
@@ -20,6 +20,7 @@
   align-items: center;
   justify-content: center;
   gap: 3px;
+  background-color: transparent;
 }
 
 .loading-item-1,

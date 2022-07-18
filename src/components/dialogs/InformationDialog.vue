@@ -1,8 +1,8 @@
 <template>
   <teleport to="body">
-    <div v-if="open" class="backdrop" @click="$emit('close')"></div>
+    <div v-if="open" class="backdrop" @click="$emit('close')" />
     <transition name="modal">
-      <dialog open v-if="open">
+      <dialog v-if="open" open>
         <div>
           <div class="row-center">
             <span :class="iconClass"><font-awesome-icon :icon="icon" /> </span>
@@ -10,11 +10,9 @@
           <div class="row-center">
             <h1>{{ msg }}</h1>
           </div>
-          <slot> </slot>
           <div class="row-end">
-            <button @click="$emit('close')" class="close-button">
-              Zamknij
-            </button>
+            <button class="close-button" @click="$emit('close')">Zamknij</button>
+            <slot />
           </div>
         </div>
       </dialog>

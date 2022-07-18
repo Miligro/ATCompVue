@@ -1,17 +1,17 @@
 <template>
-  <div class="row-space" id="slider-and-buttons">
+  <div id="slider-and-buttons" class="row-space">
     <font-awesome-icon
       v-if="imagesNum > 1"
       icon="fa-solid fa-angle-left large-icon"
       class="large-icon"
       @click="slideLeft"
     />
-    <div class="slider" id="slider">
-      <div class="slides" id="slides">
+    <div id="slider" class="slider">
+      <div id="slides" class="slides">
         <div
-          class="slide"
-          v-for="image in images"
+          v-for="image in imagesToShow"
           :key="image.id"
+          class="slide"
           :style="`height:${sliderHeight}px;width:${sliderWidth}px`"
         >
           <img
@@ -45,7 +45,41 @@ export default {
       sliderWidth: 500,
       sliderHeight: 500,
       imagesNum: 0,
+      imagesToShow: null,
     }
+  },
+  mounted() {
+    this.imagesToShow = this.images
+    const slider = document.getElementById('slider')
+    const slides = document.getElementById('slides')
+    const sliderAndButtons = document.getElementById('slider-and-buttons')
+    sliderAndButtons.style.width = `${this.sliderWidth + 50}px`
+    slider.style.height = `${this.sliderHeight}px`
+    slider.style.width = `${this.sliderWidth}px`
+
+    const lastImg = this.imagesToShow.pop()
+    this.imagesToShow.unshift(lastImg)
+    this.imagesNum = this.imagesToShow.length
+
+    if (this.imagesNum > 1) {
+      slides.style.marginLeft = `-${this.sliderWidth}px`
+    }
+
+    if (this.imagesNum === 2) {
+      this.imagesNum += 2
+      this.imagesToShow.push({
+        id: this.images[0].id + this.images[1].id + 1,
+        title: this.images[0].title,
+        url: this.images[0].url,
+      })
+      this.imagesToShow.push({
+        id: this.images[0].id + this.images[1].id + 2,
+        title: this.images[1].title,
+        url: this.images[1].url,
+      })
+    }
+
+    slides.style.width = `${this.imagesNum * this.sliderWidth}px`
   },
   methods: {
     slideLeft() {
@@ -54,8 +88,8 @@ export default {
       slides.style.left = `${this.sliderWidth}px`
 
       setTimeout(() => {
-        const lastImg = this.images.pop()
-        this.images.unshift(lastImg)
+        const lastImg = this.imagesToShow.pop()
+        this.imagesToShow.unshift(lastImg)
         slides.style.transition = ``
         slides.style.left = ``
       }, 300)
@@ -65,44 +99,12 @@ export default {
       slides.style.transition = `left 0.3s ease-out`
       slides.style.left = `${-this.sliderWidth}px`
       setTimeout(() => {
-        const firstImg = this.images.shift()
-        this.images.push(firstImg)
+        const firstImg = this.imagesToShow.shift()
+        this.imagesToShow.push(firstImg)
         slides.style.transition = ``
         slides.style.left = ``
       }, 300)
     },
-  },
-  mounted() {
-    const slider = document.getElementById('slider')
-    const slides = document.getElementById('slides')
-    const sliderAndButtons = document.getElementById('slider-and-buttons')
-    sliderAndButtons.style.width = `${this.sliderWidth + 50}px`
-    slider.style.height = `${this.sliderHeight}px`
-    slider.style.width = `${this.sliderWidth}px`
-
-    const lastImg = this.images.pop()
-    this.images.unshift(lastImg)
-    this.imagesNum = this.images.length
-
-    if (this.imagesNum > 1) {
-      slides.style.marginLeft = `-${this.sliderWidth}px`
-    }
-
-    if (this.imagesNum === 2) {
-      this.imagesNum += 2
-      this.images.push({
-        id: this.images[0].id + this.images[1].id + 1,
-        title: this.images[0].title,
-        url: this.images[0].url,
-      })
-      this.images.push({
-        id: this.images[0].id + this.images[1].id + 2,
-        title: this.images[1].title,
-        url: this.images[1].url,
-      })
-    }
-
-    slides.style.width = `${this.imagesNum * this.sliderWidth}px`
   },
 }
 </script>

@@ -10,7 +10,7 @@
     </div>
     <TheSlider2 v-if="photos" :images="photos" />
   </div>
-  <div class="loading-small" v-if="!photos">
+  <div v-if="!photos" class="loading-small">
     <TheLoader />
   </div>
 </template>
@@ -27,13 +27,13 @@ export default {
       photos: null,
     }
   },
+  mounted() {
+    this.getPhotos()
+  },
   methods: {
     async getPhotos() {
       this.photos = await getPhotos(+this.$route.params.id)
     },
-  },
-  mounted() {
-    this.getPhotos()
   },
 }
 </script>

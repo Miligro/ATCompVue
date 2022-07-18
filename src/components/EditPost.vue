@@ -12,18 +12,22 @@
 <script>
 import { updatePost } from '../scripts/postsApi'
 export default {
-  emits: ['response'],
   props: {
     item: {
       type: Object,
       required: true,
     },
   },
+  emits: ['response'],
   data() {
     return {
       title: '',
       content: '',
     }
+  },
+  mounted() {
+    this.title = this.item.title
+    this.content = this.item.body
   },
   methods: {
     confirmEdit() {
@@ -36,10 +40,6 @@ export default {
         this.$emit('response', res)
       })
     },
-  },
-  mounted() {
-    this.title = this.item.title
-    this.content = this.item.body
   },
 }
 </script>

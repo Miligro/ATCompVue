@@ -1,13 +1,11 @@
 <template>
-  <div class="comments-card" :id="'comments-' + commentsId">
-    <div
-      class="comment-card"
-      v-for="comment in locallyComments"
-      :key="comment.id"
-    >
+  <div :id="'comments-' + commentsId" class="comments-card">
+    <div v-for="comment in locallyComments" :key="comment.id" class="comment-card">
       <h3>{{ comment.name }}</h3>
       <p>{{ comment.body }}</p>
-      <p class="small-font">{{ comment.email }}</p>
+      <p class="small-font">
+        {{ comment.email }}
+      </p>
       <hr />
     </div>
   </div>
@@ -22,18 +20,16 @@ export default {
       content: null,
     }
   },
-  mounted() {
-    this.content = document.getElementById(`comments-${this.commentsId}`)
-  },
   watch: {
     comments() {
       if (this.comments) {
         this.locallyComments = this.comments
       }
-      this.content.style.maxHeight = this.comments
-        ? `${500 * this.comments.length}px`
-        : 0
+      this.content.style.maxHeight = this.comments ? `${500 * this.comments.length}px` : 0
     },
+  },
+  mounted() {
+    this.content = document.getElementById(`comments-${this.commentsId}`)
   },
 }
 </script>
@@ -48,6 +44,7 @@ export default {
   max-height: 0px;
   overflow: hidden;
   transition: max-height ease 0.8s;
+  background-color: white;
 }
 
 .comment-card {

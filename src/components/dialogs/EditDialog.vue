@@ -1,11 +1,11 @@
 <template>
-  <teleport to="body" v-if="editComponent">
-    <div class="backdrop" @click="$emit('close')"></div>
+  <teleport v-if="editComponent" to="body">
+    <div class="backdrop" @click="$emit('close')" />
     <transition name="modal">
       <dialog open>
-        <component :item="item" :is="editComponent" @response="response" />
+        <component :is="editComponent" :item="item" @response="response" />
         <div class="row-end">
-          <button @click="$emit('close')" class="close-button">Zamknij</button>
+          <button class="close-button" @click="$emit('close')">Zamknij</button>
         </div>
       </dialog>
     </transition>
@@ -19,7 +19,7 @@ export default {
   props: {
     item: {
       type: Object,
-      default: {},
+      required: true,
     },
     editComponent: {
       type: String,

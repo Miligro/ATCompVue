@@ -1,15 +1,19 @@
 <template>
   <header>
     <nav class="head-nav">
-      <div
-        :class="{ 'menu-button': true, 'menu-active': sideNavOpen }"
-        @click="toggleSideNav"
-      >
+      <div :class="{ 'menu-button': true, 'menu-active': sideNavOpen }" @click="toggleSideNav">
         <div class="hamburger hamburger-bar" />
       </div>
-      <a href="https://github.com/Miligro/ATCompVue">GitHub</a>
+      <div class="row-end">
+        <RouterLink to="/login">
+          <button class="head-nav-button">Logowanie</button>
+        </RouterLink>
+        <RouterLink to="/register">
+          <button class="head-nav-button">Rejestracja</button>
+        </RouterLink>
+      </div>
     </nav>
-    <nav class="side-nav" id="side-nav">
+    <nav id="side-nav" class="side-nav">
       <RouterLink v-for="nav in navs" :key="nav.to" :to="nav.to">
         <div class="navigation-con main-page-nav">
           <p>{{ nav.text }}</p>
@@ -18,15 +22,43 @@
       </RouterLink>
     </nav>
   </header>
+  <EditDialog
+    :edit-component="dialogStore.editComponent"
+    :item="dialogStore.item"
+    @close="dialogStore.closeDialogs"
+    @response="dialogStore.response"
+  />
+  <QuestionDialog
+    :open="dialogStore.questionDialog"
+    :msg="dialogStore.msg"
+    :icon="dialogStore.icon"
+    :icon-class="dialogStore.iconClass"
+    @close="dialogStore.closeDialogs"
+    @confirm="dialogStore.confirm"
+  />
+  <InformationDialog
+    :open="dialogStore.informationDialog"
+    :icon="dialogStore.icon"
+    :icon-class="dialogStore.iconClass"
+    :msg="dialogStore.msg"
+    @close="dialogStore.closeDialogs"
+  />
   <RouterView />
 </template>
 
 <script>
 import { RouterLink, RouterView } from 'vue-router'
+import { useDialogStore } from './stores/dialog'
+import EditDialog from './components/dialogs/EditDialog.vue'
+import InformationDialog from './components/dialogs/InformationDialog.vue'
+import QuestionDialog from './components/dialogs/QuestionDialog.vue'
 export default {
   components: {
     RouterView,
     RouterLink,
+    EditDialog,
+    QuestionDialog,
+    InformationDialog,
   },
   data() {
     return {
@@ -48,7 +80,13 @@ export default {
           icon: 'fa-regular fa-images',
         },
       ],
+      dialogStore: useDialogStore(),
     }
+  },
+  mounted() {
+    this.dialogStore.readState()
+    const pageLoader = document.getElementById('page-loader')
+    pageLoader.remove()
   },
   methods: {
     toggleSideNav() {
@@ -60,10 +98,6 @@ export default {
       }
       this.sideNavOpen = !this.sideNavOpen
     },
-  },
-  mounted() {
-    const pageLoader = document.getElementById('page-loader')
-    pageLoader.remove()
   },
 }
 </script>
@@ -79,6 +113,8 @@ export default {
 
 body {
   margin-bottom: 40px;
+  background-color: rgba(214, 214, 214, 0.493);
+  font-family: 'Helvetica', sans-serif;
 }
 
 h2 {
@@ -95,10 +131,11 @@ a {
 }
 
 .menu-button {
-  top: 15px;
+  top: 17px;
   height: 40px;
   width: 40px;
   cursor: pointer;
+  /* text-align: center; */
   position: relative;
 }
 
@@ -155,7 +192,7 @@ a {
   margin: 0;
   top: 0;
   display: flex;
-  background-color: white;
+  background-color: transparent;
   flex-direction: column;
   color: black;
   align-items: center;
@@ -218,6 +255,16 @@ a {
   width: 30%;
   display: flex;
   flex-direction: column;
+  margin-top: 15px;
+}
+
+h1 {
+  font-size: 45px;
+}
+
+textarea {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 18px;
 }
 
 button {
@@ -256,7 +303,10 @@ button {
 }
 
 .head-nav {
-  background-color: #4c3c3c;
+  /* background-color: #4c3c3c; */
+  /* background-color: #708090; */
+  background-color: #65717e;
+
   height: 60px;
   display: flex;
   flex-direction: row;
@@ -271,17 +321,31 @@ button {
 }
 
 .head-nav a {
-  width: 160px;
+  /* width: 160px; */
+  /* margin: 0 8px; */
   text-align: center;
   justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
 }
 
 .head-nav a h2 {
   margin: 0;
 }
 
+.head-nav-button {
+  background-color: #2e343b;
+  margin: 0 6px;
+  padding: 10px;
+}
+
+.head-nav-button:hover {
+  background-color: #000000;
+}
+
 .side-nav {
-  background-color: #5f4c4c;
+  /* background-color: #5f4c4c; */
+  background-color: #708090;
   width: 200px;
   height: 100%;
   top: 60px;
@@ -297,7 +361,8 @@ button {
 .side-nav a {
   width: 80%;
   text-decoration: none;
-  color: white;
+  color: rgb(255, 255, 255);
+  /* background-color: #65717e; */
 }
 
 .navigation-con {
@@ -307,7 +372,7 @@ button {
   align-items: center;
   flex-direction: column;
   padding: 1rem;
-  border-radius: 6px;
+  border-radius: 4px;
   color: black;
 }
 
@@ -338,16 +403,21 @@ hr {
 }
 
 .side-nav .main-page-nav {
-  border: 1px solid rgb(255, 255, 255);
+  /* border: 1px solid rgb(0, 0, 0); */
+  border: none;
+  background-color: #404852;
 }
 
-.side-nav .main-page-nav:hover {
-  border: 2px solid rgb(255, 255, 255);
+.side-nav .main-page-nav:hover p,
+.side-nav .main-page-nav:hover .white-icon {
+  color: rgb(202, 202, 202);
+
+  /* border: 2px solid rgb(255, 255, 255); */
 }
 
 .side-nav p,
 .side-nav i {
-  color: white;
+  color: rgb(255, 255, 255);
 }
 
 i:hover {
