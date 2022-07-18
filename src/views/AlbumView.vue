@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import { getPhotos } from "../scripts/albumsApi";
-import TheSlider2 from "../components/TheSlider2.vue";
+import { getPhotos } from '../scripts/albumsApi'
+import TheSlider2 from '../components/TheSlider2.vue'
 export default {
   components: {
     TheSlider2,
@@ -25,15 +25,15 @@ export default {
   data() {
     return {
       photos: null,
-    };
+    }
   },
   methods: {
     async getPhotos() {
-      this.photos = await getPhotos(+this.$route.params.id);
+      this.photos = await getPhotos(+this.$route.params.id)
     },
   },
   mounted() {
-    this.getPhotos();
+    this.getPhotos()
   },
-};
+}
 </script>

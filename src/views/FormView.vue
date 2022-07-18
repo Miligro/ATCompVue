@@ -46,9 +46,9 @@ import {
   checkFunction,
   validatePesel,
   validateInputs,
-} from "../scripts/validation.js";
-import FormResult from "../components/FormResult.vue";
-import InformationDialog from "../components/dialogs/InformationDialog.vue";
+} from '../scripts/validation.js'
+import FormResult from '../components/FormResult.vue'
+import InformationDialog from '../components/dialogs/InformationDialog.vue'
 export default {
   components: {
     FormResult,
@@ -59,108 +59,108 @@ export default {
       dateOfBirth: null,
       gender: null,
       invalidInputAlert: false,
-      msg: "",
+      msg: '',
       result: false,
       toValid: {
         firstName: {
-          label: "Imię",
-          value: "",
+          label: 'Imię',
+          value: '',
           invalid: false,
           regex: /^[a-zA-Z]+$/,
-          type: "text",
+          type: 'text',
           checkFun: this.checkInput,
         },
         lastName: {
-          label: "Nazwisko",
-          value: "",
+          label: 'Nazwisko',
+          value: '',
           invalid: false,
           regex: /^[a-zA-Z]+$/,
-          type: "text",
+          type: 'text',
           checkFun: this.checkInput,
         },
         email: {
-          label: "Email",
-          value: "",
+          label: 'Email',
+          value: '',
           invalid: false,
           regex: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-          type: "email",
+          type: 'email',
           checkFun: this.checkInput,
         },
         description: {
-          label: "Opis",
-          value: "",
+          label: 'Opis',
+          value: '',
           invalid: false,
-          regex: "",
-          type: "text",
+          regex: '',
+          type: 'text',
           checkFun: this.checkInput,
         },
         pesel: {
-          label: "PESEL",
-          value: "",
+          label: 'PESEL',
+          value: '',
           invalid: false,
-          type: "text",
+          type: 'text',
           checkFun: this.checkPesel,
         },
       },
-    };
+    }
   },
   mounted() {
     for (const el in this.toValid) {
-      let key = "toValid." + el + ".value";
+      let key = 'toValid.' + el + '.value'
       this.$watch(key, () => {
-        this.toValid[el].checkFun(this.toValid[el]);
-      });
+        this.toValid[el].checkFun(this.toValid[el])
+      })
     }
   },
   methods: {
     checkInput(el) {
-      el.invalid = !checkFunction(el.value, el.regex);
+      el.invalid = !checkFunction(el.value, el.regex)
     },
     checkPesel(el) {
-      el.invalid = !validatePesel(el.value);
+      el.invalid = !validatePesel(el.value)
     },
     closeAlertDialog() {
-      this.msg = "";
-      this.invalidInputAlert = false;
+      this.msg = ''
+      this.invalidInputAlert = false
     },
     onSubmit() {
-      this.result = false;
-      this.msg = validateInputs(this.toValid);
+      this.result = false
+      this.msg = validateInputs(this.toValid)
       if (this.msg) {
-        this.msg = "Niepoprawna wartość: " + this.msg;
-        this.invalidInputAlert = true;
-        return;
+        this.msg = 'Niepoprawna wartość: ' + this.msg
+        this.invalidInputAlert = true
+        return
       }
-      this.getPeselData();
-      this.appendData();
+      this.getPeselData()
+      this.appendData()
     },
     getPeselData() {
-      this.dateOfBirth = null;
-      const yearTemp = +this.toValid.pesel.value.slice(0, 2);
+      this.dateOfBirth = null
+      const yearTemp = +this.toValid.pesel.value.slice(0, 2)
       let year =
-        1900 + yearTemp + Math.floor(+this.toValid.pesel.value[2] / 2) * 100;
-      let month = +this.toValid.pesel.value.slice(2, 4);
-      month = month % 20;
-      const day = this.toValid.pesel.value.slice(4, 6);
-      this.dateOfBirth = `${day}-${month < 10 ? "0" + month : month}-${year}`;
+        1900 + yearTemp + Math.floor(+this.toValid.pesel.value[2] / 2) * 100
+      let month = +this.toValid.pesel.value.slice(2, 4)
+      month = month % 20
+      const day = this.toValid.pesel.value.slice(4, 6)
+      this.dateOfBirth = `${day}-${month < 10 ? '0' + month : month}-${year}`
 
       this.gender =
         +this.toValid.pesel.value.slice(9, 10) % 2 == 0
-          ? "Kobieta"
-          : "Mężczyzna";
+          ? 'Kobieta'
+          : 'Mężczyzna'
     },
     appendData() {
-      const data = this.toValid;
+      const data = this.toValid
       this.result = {
         [data.firstName.label]: data.firstName.value,
         [data.lastName.label]: data.lastName.value,
         [data.email.label]: data.email.value,
         [data.description.label]: data.description.value,
         [data.pesel.label]: data.pesel.value,
-      };
+      }
     },
   },
-};
+}
 </script>
 
 <style scoped>

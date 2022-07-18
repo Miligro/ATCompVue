@@ -1,21 +1,21 @@
-import { createApp } from "vue";
-import App from "./App.vue";
-import router from "./router";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import TheLoader from "./components/TheLoader.vue";
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import TheLoader from './components/TheLoader.vue'
 
-const app = createApp(App);
+const app = createApp(App)
 
-app.use(router);
+app.use(router)
 
-import { library } from "@fortawesome/fontawesome-svg-core";
+import { library } from '@fortawesome/fontawesome-svg-core'
 
 import {
   faMessage,
   faImages,
   faPenToSquare,
-} from "@fortawesome/free-regular-svg-icons";
-import { faWpforms } from "@fortawesome/free-brands-svg-icons";
+} from '@fortawesome/free-regular-svg-icons'
+import { faWpforms } from '@fortawesome/free-brands-svg-icons'
 import {
   faArrowUpLong,
   faArrowDownLong,
@@ -25,7 +25,7 @@ import {
   faQuestion,
   faAngleLeft,
   faAngleRight,
-} from "@fortawesome/free-solid-svg-icons";
+} from '@fortawesome/free-solid-svg-icons'
 
 library.add(
   faMessage,
@@ -40,9 +40,9 @@ library.add(
   faQuestion,
   faAngleLeft,
   faAngleRight
-);
+)
 
-app.component("font-awesome-icon", FontAwesomeIcon);
-app.component("TheLoader", TheLoader);
+app.component('font-awesome-icon', FontAwesomeIcon)
+app.component('TheLoader', TheLoader)
 
-app.mount("#app");
+app.mount('#app')

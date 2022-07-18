@@ -30,33 +30,33 @@ export default {
     return {
       index: 0,
       imagesNum: 0,
-    };
+    }
   },
   computed: {
     currentImage() {
-      return this.images[this.index];
+      return this.images[this.index]
     },
   },
   mounted() {
-    this.imagesNum = this.images.length;
+    this.imagesNum = this.images.length
   },
   methods: {
     slideLeft() {
       if (this.index === 0) {
-        this.index = this.imagesNum - 1;
+        this.index = this.imagesNum - 1
       } else {
-        this.index--;
+        this.index--
       }
     },
     slideRight() {
       if (this.index === this.imagesNum - 1) {
-        this.index = 0;
+        this.index = 0
       } else {
-        this.index++;
+        this.index++
       }
     },
   },
-};
+}
 </script>
 
 <style scoped>

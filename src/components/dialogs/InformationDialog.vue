@@ -25,26 +25,27 @@
 <script>
 export default {
   props: {
-    open:{
-        type: Boolean,
-        required: true,
+    open: {
+      type: Boolean,
+      required: true,
     },
     msg: {
-       type: String,
-        default: "",
-    }, 
+      type: String,
+      default: '',
+    },
     iconClass: {
-        type: String,
-        default: "success-icon"
-    }, 
+      type: String,
+      default: 'success-icon',
+    },
     icon: {
-        type: String,
-        default: 'fa-solid fa-check'
-    }},
-  emits: ["close"],
-};
+      type: String,
+      default: 'fa-solid fa-check',
+    },
+  },
+  emits: ['close'],
+}
 </script>
 
 <style scoped>
-@import "./dialogStyle.css";
+@import './dialogStyle.css';
 </style>

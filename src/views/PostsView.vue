@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import { getPosts } from "../scripts/postsApi";
-import TheFilters from "../components/TheFilters.vue";
-import PostCard from "../components/PostCard.vue";
+import { getPosts } from '../scripts/postsApi'
+import TheFilters from '../components/TheFilters.vue'
+import PostCard from '../components/PostCard.vue'
 export default {
   components: {
     TheFilters,
@@ -39,63 +39,63 @@ export default {
         rows: {
           first: [
             {
-              placeholder: "Tytuł",
-              tag: "input",
-              type: "text",
-              id: "title",
-              value: "",
+              placeholder: 'Tytuł',
+              tag: 'input',
+              type: 'text',
+              id: 'title',
+              value: '',
             },
             {
-              placeholder: "ID Użytkownika",
-              tag: "input",
-              type: "number",
-              id: "userId",
-              value: "",
+              placeholder: 'ID Użytkownika',
+              tag: 'input',
+              type: 'number',
+              id: 'userId',
+              value: '',
             },
           ],
           second: [
             {
-              placeholder: "Zawartość",
-              tag: "input",
-              type: "text",
-              id: "body",
-              value: "",
+              placeholder: 'Zawartość',
+              tag: 'input',
+              type: 'text',
+              id: 'body',
+              value: '',
             },
           ],
         },
         select: {
           options: [
             {
-              value: "title",
-              text: "Tytuł",
+              value: 'title',
+              text: 'Tytuł',
             },
             {
-              value: "userId",
-              text: "ID użytkownika",
+              value: 'userId',
+              text: 'ID użytkownika',
             },
             {
-              value: "body",
-              text: "Zawartość",
+              value: 'body',
+              text: 'Zawartość',
             },
           ],
-          id: "sortOption",
+          id: 'sortOption',
         },
       },
-    };
+    }
   },
   methods: {
     async getPosts() {
-      this.posts = await getPosts();
-      this.postsToShow = this.posts;
+      this.posts = await getPosts()
+      this.postsToShow = this.posts
     },
     onFilter(posts) {
-      this.postsToShow = posts;
+      this.postsToShow = posts
     },
   },
   mounted() {
-    this.getPosts();
+    this.getPosts()
   },
-};
+}
 </script>
 
 <style scoped>

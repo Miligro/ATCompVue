@@ -5,7 +5,9 @@
       <dialog open v-if="open">
         <div>
           <div class="row-center">
-            <span class="ask-icon"><font-awesome-icon icon="fa-solid fa-question" /> </span>
+            <span class="ask-icon"
+              ><font-awesome-icon icon="fa-solid fa-question" />
+            </span>
           </div>
           <div class="row-center">
             <h1>{{ msg }}</h1>
@@ -15,9 +17,7 @@
             <button @click="$emit('close')" class="close-button">
               Zamknij
             </button>
-            <button @click="$emit('confirm')">
-              Zatwierdź
-            </button>
+            <button @click="$emit('confirm')">Zatwierdź</button>
           </div>
         </div>
       </dialog>
@@ -28,19 +28,19 @@
 <script>
 export default {
   props: {
-    open:{
-        type: Boolean,
-        required: true,
+    open: {
+      type: Boolean,
+      required: true,
     },
     msg: {
-       type: String,
-        default: "",
+      type: String,
+      default: '',
     },
   },
-  emits: ["close", "confirm"],
-};
+  emits: ['close', 'confirm'],
+}
 </script>
 
 <style scoped>
-@import "./dialogStyle.css";
+@import './dialogStyle.css';
 </style>

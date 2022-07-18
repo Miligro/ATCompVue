@@ -45,8 +45,8 @@
 
 <script>
 export default {
-  props: ["result"],
-};
+  props: ['result'],
+}
 </script>
 
 <style scoped>

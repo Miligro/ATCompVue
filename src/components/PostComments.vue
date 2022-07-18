@@ -15,27 +15,27 @@
 
 <script>
 export default {
-  props: ["comments", "commentsId"],
+  props: ['comments', 'commentsId'],
   data() {
     return {
       locallyComments: null,
       content: null,
-    };
+    }
   },
   mounted() {
-    this.content = document.getElementById(`comments-${this.commentsId}`);
+    this.content = document.getElementById(`comments-${this.commentsId}`)
   },
   watch: {
     comments() {
       if (this.comments) {
-        this.locallyComments = this.comments;
+        this.locallyComments = this.comments
       }
       this.content.style.maxHeight = this.comments
         ? `${500 * this.comments.length}px`
-        : 0;
+        : 0
     },
   },
-};
+}
 </script>
 
 <style scoped>

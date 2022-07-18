@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { RouterLink, RouterView } from "vue-router";
+import { RouterLink, RouterView } from 'vue-router'
 export default {
   components: {
     RouterView,
@@ -33,43 +33,43 @@ export default {
       sideNavOpen: true,
       navs: [
         {
-          text: "Formularz",
-          to: "/form",
-          icon: "fa-brands fa-wpforms",
+          text: 'Formularz',
+          to: '/form',
+          icon: 'fa-brands fa-wpforms',
         },
         {
-          text: "Posty",
-          to: "/posts",
-          icon: "fa-regular fa-message",
+          text: 'Posty',
+          to: '/posts',
+          icon: 'fa-regular fa-message',
         },
         {
-          text: "Albumy",
-          to: "/albums",
-          icon: "fa-regular fa-images",
+          text: 'Albumy',
+          to: '/albums',
+          icon: 'fa-regular fa-images',
         },
       ],
-    };
+    }
   },
   methods: {
     toggleSideNav() {
-      const sideNav = document.getElementById("side-nav");
+      const sideNav = document.getElementById('side-nav')
       if (this.sideNavOpen) {
-        sideNav.style.width = "0px";
+        sideNav.style.width = '0px'
       } else {
-        sideNav.style.width = "200px";
+        sideNav.style.width = '200px'
       }
-      this.sideNavOpen = !this.sideNavOpen;
+      this.sideNavOpen = !this.sideNavOpen
     },
   },
   mounted() {
-    const pageLoader = document.getElementById("page-loader");
-    pageLoader.remove();
+    const pageLoader = document.getElementById('page-loader')
+    pageLoader.remove()
   },
-};
+}
 </script>
 
 <style>
-@import "@/assets/base.css";
+@import '@/assets/base.css';
 
 * {
   box-sizing: border-box;
@@ -126,7 +126,7 @@ a {
 
 .hamburger-bar::before,
 .hamburger-bar::after {
-  content: "";
+  content: '';
   width: 40px;
   height: 5px;
   background: #ffffff;

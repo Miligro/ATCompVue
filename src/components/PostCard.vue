@@ -50,11 +50,11 @@
 </template>
 
 <script>
-import PostComments from "./PostComments.vue";
-import EditDialog from "../components/dialogs/EditDialog.vue";
-import QuestionDialog from "../components/dialogs/QuestionDialog.vue";
-import InformationDialog from "../components/dialogs/InformationDialog.vue";
-import { getComments, deletePost } from "../scripts/postsApi.js";
+import PostComments from './PostComments.vue'
+import EditDialog from '../components/dialogs/EditDialog.vue'
+import QuestionDialog from '../components/dialogs/QuestionDialog.vue'
+import InformationDialog from '../components/dialogs/InformationDialog.vue'
+import { getComments, deletePost } from '../scripts/postsApi.js'
 export default {
   components: {
     PostComments,
@@ -72,65 +72,65 @@ export default {
     return {
       showComments: false,
       comments: null,
-      editComponent: "",
+      editComponent: '',
       questionDialog: false,
       informationDialog: false,
-      infMsg: "",
-      icon: "",
-      iconClass: "",
-    };
+      infMsg: '',
+      icon: '',
+      iconClass: '',
+    }
   },
   methods: {
     editPost() {
-      this.editComponent = "EditPost";
+      this.editComponent = 'EditPost'
     },
     deletePost() {
-      this.questionDialog = true;
+      this.questionDialog = true
     },
     confirmDelete() {
       deletePost(this.post.id).then((res) => {
         if (res) {
-          this.success("Post został usunięty");
+          this.success('Post został usunięty')
         } else {
-          this.error("Post nie został usunięty");
+          this.error('Post nie został usunięty')
         }
-        this.closeDialogs();
-        this.informationDialog = true;
-      });
+        this.closeDialogs()
+        this.informationDialog = true
+      })
     },
     closeDialogs() {
-      this.editComponent = "";
-      this.questionDialog = false;
-      this.informationDialog = false;
+      this.editComponent = ''
+      this.questionDialog = false
+      this.informationDialog = false
     },
     async toggleComments() {
       if (!this.comments) {
-        this.comments = await getComments(this.post.id);
+        this.comments = await getComments(this.post.id)
       } else {
-        this.comments = null;
+        this.comments = null
       }
     },
     response(res) {
       if (res) {
-        this.success("Poprawnie edytowano post");
+        this.success('Poprawnie edytowano post')
       } else {
-        this.error("Nie udało się edytować posta!");
+        this.error('Nie udało się edytować posta!')
       }
-      this.closeDialogs();
-      this.informationDialog = true;
+      this.closeDialogs()
+      this.informationDialog = true
     },
     success(msg) {
-      this.infMsg = msg;
-      this.icon = "fa-solid fa-check";
-      this.iconClass = "success-icon";
+      this.infMsg = msg
+      this.icon = 'fa-solid fa-check'
+      this.iconClass = 'success-icon'
     },
     error(msg) {
-      this.infMsg = msg;
-      this.icon = "fa-solid fa-exclamation";
-      this.iconClass = "error-icon";
+      this.infMsg = msg
+      this.icon = 'fa-solid fa-exclamation'
+      this.iconClass = 'error-icon'
     },
   },
-};
+}
 </script>
 
 <style scoped>

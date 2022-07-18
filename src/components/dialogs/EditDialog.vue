@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import EditPost from "../EditPost.vue";
+import EditPost from '../EditPost.vue'
 export default {
   components: { EditPost },
   props: {
@@ -26,15 +26,15 @@ export default {
       required: true,
     },
   },
-  emits: ["close", "response"],
+  emits: ['close', 'response'],
   methods: {
     response(...res) {
-      this.$emit("response", ...res);
+      this.$emit('response', ...res)
     },
   },
-};
+}
 </script>
 
 <style scoped>
-@import "./dialogStyle.css";
+@import './dialogStyle.css';
 </style>

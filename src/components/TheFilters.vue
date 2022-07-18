@@ -33,133 +33,133 @@
 
 <script>
 export default {
-  props: ["filters", "toFilter", "storage"],
-  emits: ["filter"],
+  props: ['filters', 'toFilter', 'storage'],
+  emits: ['filter'],
   data() {
     return {
-      asc: "fa-solid fa-arrow-up-long",
-      desc: "fa-solid fa-arrow-down-long",
-      icon: "fa-solid fa-arrow-up-long",
+      asc: 'fa-solid fa-arrow-up-long',
+      desc: 'fa-solid fa-arrow-down-long',
+      icon: 'fa-solid fa-arrow-up-long',
       values: [],
-      order: "asc",
-    };
+      order: 'asc',
+    }
   },
   methods: {
     onFilter() {
-      this.saveStorage();
-      let toReturn = this.toFilter;
+      this.saveStorage()
+      let toReturn = this.toFilter
       for (const key in this.filters.rows) {
-        const row = this.filters.rows[key];
+        const row = this.filters.rows[key]
         for (const filter of row) {
-          if (filter.type === "text") {
+          if (filter.type === 'text') {
             toReturn = this.filterByText(
               toReturn,
               filter.id,
               this.values[filter.id]
-            );
-          } else if (filter.type === "number") {
+            )
+          } else if (filter.type === 'number') {
             toReturn = this.filterByNum(
               toReturn,
               filter.id,
               this.values[filter.id]
-            );
+            )
           }
         }
       }
       if (this.filters.select) {
         toReturn = toReturn.sort((a, b) => {
-          const sortOption = this.values[this.filters.select.id];
-          if (this.order === "desc") {
-            return a[sortOption] >= b[sortOption] ? 1 : -1;
+          const sortOption = this.values[this.filters.select.id]
+          if (this.order === 'desc') {
+            return a[sortOption] >= b[sortOption] ? 1 : -1
           } else {
-            return a[sortOption] <= b[sortOption] ? 1 : -1;
+            return a[sortOption] <= b[sortOption] ? 1 : -1
           }
-        });
+        })
       }
-      this.$emit("filter", toReturn);
+      this.$emit('filter', toReturn)
     },
     saveStorage() {
-      localStorage.setItem(`${this.storage}_order`, this.order);
+      localStorage.setItem(`${this.storage}_order`, this.order)
 
       if (this.filters.select) {
         localStorage.setItem(
           `${this.storage}_${this.filters.select.id}`,
           this.values[this.filters.select.id]
-        );
+        )
       }
       for (const key in this.filters.rows) {
-        const row = this.filters.rows[key];
+        const row = this.filters.rows[key]
         for (const filter of row) {
           if (this.values[filter.id]) {
             localStorage.setItem(
               `${this.storage}_${filter.id}`,
               this.values[filter.id]
-            );
+            )
           }
         }
       }
     },
     onResetFilters() {
-      localStorage.clear();
-      this.checkStorage();
+      localStorage.clear()
+      this.checkStorage()
     },
     onSort() {
-      if (this.order === "asc") {
-        this.icon = this.desc;
-        this.order = "desc";
+      if (this.order === 'asc') {
+        this.icon = this.desc
+        this.order = 'desc'
       } else {
-        this.icon = this.asc;
-        this.order = "asc";
+        this.icon = this.asc
+        this.order = 'asc'
       }
-      this.onFilter();
+      this.onFilter()
     },
     filterByText(toFilter, filterEl, filterBy) {
       if (filterBy) {
         toFilter = toFilter.filter(
           (el) => el[filterEl].toLowerCase().search(filterBy.toLowerCase()) >= 0
-        );
+        )
       }
-      return toFilter;
+      return toFilter
     },
     filterByNum(toFilter, filterEl, filterBy) {
       if (filterBy) {
         toFilter = toFilter.filter(
           (el) => el[filterEl].toString() === filterBy.toString()
-        );
+        )
       }
-      return toFilter;
+      return toFilter
     },
     checkStorage() {
       if (this.filters.select) {
         this.values[this.filters.select.id] =
-          this.filters.select.options[0].value;
+          this.filters.select.options[0].value
       }
-      let value = localStorage.getItem(`${this.storage}_order`);
+      let value = localStorage.getItem(`${this.storage}_order`)
       if (value) {
-        this.order = value;
+        this.order = value
       } else {
-        this.order = "asc";
+        this.order = 'asc'
       }
-      this.order === "asc" ? (this.icon = this.asc) : (this.icon = this.desc);
+      this.order === 'asc' ? (this.icon = this.asc) : (this.icon = this.desc)
 
       for (const key in this.filters.rows) {
-        const row = this.filters.rows[key];
+        const row = this.filters.rows[key]
         for (const filter of row) {
-          value = localStorage.getItem(`${this.storage}_${filter.id}`);
+          value = localStorage.getItem(`${this.storage}_${filter.id}`)
           if (value) {
-            this.values[filter.id] = value;
+            this.values[filter.id] = value
           } else {
-            this.values[filter.id] = "";
+            this.values[filter.id] = ''
           }
         }
       }
-      this.onFilter();
+      this.onFilter()
     },
   },
   mounted() {
-    this.checkStorage();
+    this.checkStorage()
   },
-};
+}
 </script>
 
 <style scoped>

@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import TheFilters from "../components/TheFilters.vue";
-import { getAlbums } from "../scripts/albumsApi";
+import TheFilters from '../components/TheFilters.vue'
+import { getAlbums } from '../scripts/albumsApi'
 export default {
   components: {
     TheFilters,
@@ -39,55 +39,55 @@ export default {
     return {
       albums: null,
       albumsToShow: null,
-      albmusApi: "https://jsonplaceholder.typicode.com/albums",
+      albmusApi: 'https://jsonplaceholder.typicode.com/albums',
       filters: {
         rows: {
           first: [
             {
-              placeholder: "Tytuł",
-              tag: "input",
-              type: "text",
-              id: "title",
-              value: "",
+              placeholder: 'Tytuł',
+              tag: 'input',
+              type: 'text',
+              id: 'title',
+              value: '',
             },
             {
-              placeholder: "ID Użytkownika",
-              tag: "input",
-              type: "number",
-              id: "userId",
-              value: "",
+              placeholder: 'ID Użytkownika',
+              tag: 'input',
+              type: 'number',
+              id: 'userId',
+              value: '',
             },
           ],
         },
         select: {
           options: [
             {
-              value: "title",
-              text: "Tytuł",
+              value: 'title',
+              text: 'Tytuł',
             },
             {
-              value: "userId",
-              text: "ID użytkownika",
+              value: 'userId',
+              text: 'ID użytkownika',
             },
           ],
-          id: "sortOption",
+          id: 'sortOption',
         },
       },
-    };
+    }
   },
   methods: {
     async getAlbmus() {
-      this.albums = await getAlbums();
-      this.albumsToShow = this.albums;
+      this.albums = await getAlbums()
+      this.albumsToShow = this.albums
     },
     onFilter(albums) {
-      this.albumsToShow = albums;
+      this.albumsToShow = albums
     },
   },
   mounted() {
-    this.getAlbmus();
+    this.getAlbmus()
   },
-};
+}
 </script>
 
 <style scoped>

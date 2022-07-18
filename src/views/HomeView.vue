@@ -1,6 +1,6 @@
 <script setup>
-import { RouterLink } from "vue-router";
-import TheLoader from "../components/TheLoader.vue";
+import { RouterLink } from 'vue-router'
+import TheLoader from '../components/TheLoader.vue'
 </script>
 
 <template>

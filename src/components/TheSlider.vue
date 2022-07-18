@@ -45,66 +45,66 @@ export default {
       sliderWidth: 500,
       sliderHeight: 500,
       imagesNum: 0,
-    };
+    }
   },
   methods: {
     slideLeft() {
-      const slides = document.getElementById("slides");
-      slides.style.transition = `left 0.3s ease-out`;
-      slides.style.left = `${this.sliderWidth}px`;
+      const slides = document.getElementById('slides')
+      slides.style.transition = `left 0.3s ease-out`
+      slides.style.left = `${this.sliderWidth}px`
 
       setTimeout(() => {
-        const lastImg = this.images.pop();
-        this.images.unshift(lastImg);
-        slides.style.transition = ``;
-        slides.style.left = ``;
-      }, 300);
+        const lastImg = this.images.pop()
+        this.images.unshift(lastImg)
+        slides.style.transition = ``
+        slides.style.left = ``
+      }, 300)
     },
     slideRight() {
-      const slides = document.getElementById("slides");
-      slides.style.transition = `left 0.3s ease-out`;
-      slides.style.left = `${-this.sliderWidth}px`;
+      const slides = document.getElementById('slides')
+      slides.style.transition = `left 0.3s ease-out`
+      slides.style.left = `${-this.sliderWidth}px`
       setTimeout(() => {
-        const firstImg = this.images.shift();
-        this.images.push(firstImg);
-        slides.style.transition = ``;
-        slides.style.left = ``;
-      }, 300);
+        const firstImg = this.images.shift()
+        this.images.push(firstImg)
+        slides.style.transition = ``
+        slides.style.left = ``
+      }, 300)
     },
   },
   mounted() {
-    const slider = document.getElementById("slider");
-    const slides = document.getElementById("slides");
-    const sliderAndButtons = document.getElementById("slider-and-buttons");
-    sliderAndButtons.style.width = `${this.sliderWidth + 50}px`;
-    slider.style.height = `${this.sliderHeight}px`;
-    slider.style.width = `${this.sliderWidth}px`;
+    const slider = document.getElementById('slider')
+    const slides = document.getElementById('slides')
+    const sliderAndButtons = document.getElementById('slider-and-buttons')
+    sliderAndButtons.style.width = `${this.sliderWidth + 50}px`
+    slider.style.height = `${this.sliderHeight}px`
+    slider.style.width = `${this.sliderWidth}px`
 
-    const lastImg = this.images.pop();
-    this.images.unshift(lastImg);
-    this.imagesNum = this.images.length;
+    const lastImg = this.images.pop()
+    this.images.unshift(lastImg)
+    this.imagesNum = this.images.length
 
     if (this.imagesNum > 1) {
-      slides.style.marginLeft = `-${this.sliderWidth}px`;
+      slides.style.marginLeft = `-${this.sliderWidth}px`
     }
 
     if (this.imagesNum === 2) {
-      this.imagesNum += 2;
+      this.imagesNum += 2
       this.images.push({
         id: this.images[0].id + this.images[1].id + 1,
         title: this.images[0].title,
         url: this.images[0].url,
-      });
+      })
       this.images.push({
         id: this.images[0].id + this.images[1].id + 2,
         title: this.images[1].title,
         url: this.images[1].url,
-      });
+      })
     }
 
-    slides.style.width = `${this.imagesNum * this.sliderWidth}px`;
+    slides.style.width = `${this.imagesNum * this.sliderWidth}px`
   },
-};
+}
 </script>
 
 <style scoped>
