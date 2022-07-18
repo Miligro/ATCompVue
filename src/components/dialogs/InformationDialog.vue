@@ -11,7 +11,9 @@
             <h1>{{ msg }}</h1>
           </div>
           <div class="row-end">
-            <button class="close-button" @click="$emit('close')">Zamknij</button>
+            <button class="close-button" @click="$emit('close')">
+              Zamknij
+            </button>
             <slot />
           </div>
         </div>

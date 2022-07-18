@@ -72,7 +72,8 @@ export default {
           label: 'Hasło',
           value: '',
           invalid: false,
-          regex: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+          regex:
+            /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
           type: 'password',
         },
         repeatedPassword: {
@@ -95,7 +96,9 @@ export default {
           'error-icon'
         )
         return
-      } else if (this.toValid.password.value !== this.toValid.repeatedPassword.value) {
+      } else if (
+        this.toValid.password.value !== this.toValid.repeatedPassword.value
+      ) {
         this.dialogStore.setInformationDialog(
           `Podane hasła nie są takie same`,
           'fa-solid fa-exclamation',

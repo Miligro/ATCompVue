@@ -28,7 +28,8 @@ export const useDialogStore = defineStore('dialog', {
       const editCom = localStorage.getItem('edit_component')
       this.editComponent = editCom === 'null' ? null : editCom
       this.questionDialog = localStorage.getItem('question_dialog') === 'true'
-      this.informationDialog = localStorage.getItem('information_dialog') === 'true'
+      this.informationDialog =
+        localStorage.getItem('information_dialog') === 'true'
       this.item = JSON.parse(localStorage.getItem('item'))
       this.msg = localStorage.getItem('msg') || null
       this.icon = localStorage.getItem('icon') || null

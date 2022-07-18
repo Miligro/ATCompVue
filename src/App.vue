@@ -1,7 +1,10 @@
 <template>
   <header>
     <nav class="head-nav">
-      <div :class="{ 'menu-button': true, 'menu-active': sideNavOpen }" @click="toggleSideNav">
+      <div
+        :class="{ 'menu-button': true, 'menu-active': sideNavOpen }"
+        @click="toggleSideNav"
+      >
         <div class="hamburger hamburger-bar" />
       </div>
       <div class="row-end">

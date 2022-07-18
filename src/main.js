@@ -12,7 +12,11 @@ app.use(createPinia())
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 
-import { faMessage, faImages, faPenToSquare } from '@fortawesome/free-regular-svg-icons'
+import {
+  faMessage,
+  faImages,
+  faPenToSquare,
+} from '@fortawesome/free-regular-svg-icons'
 import { faWpforms } from '@fortawesome/free-brands-svg-icons'
 import {
   faArrowUpLong,

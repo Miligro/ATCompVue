@@ -6,7 +6,11 @@
       <p>{{ post.body }}</p>
       <div class="row-space">
         <div class="row-start">
-          <font-awesome-icon class="manage-icon" icon="fa-solid fa-trash" @click="deletePost" />
+          <font-awesome-icon
+            class="manage-icon"
+            icon="fa-solid fa-trash"
+            @click="deletePost"
+          />
           <font-awesome-icon
             class="manage-icon"
             icon="fa-regular fa-pen-to-square"
@@ -15,7 +19,9 @@
         </div>
         <button @click="toggleComments">
           Komentarze
-          <font-awesome-icon :icon="`fa-solid fa-arrow-${comments ? 'down' : 'up'}-long`" />
+          <font-awesome-icon
+            :icon="`fa-solid fa-arrow-${comments ? 'down' : 'up'}-long`"
+          />
         </button>
       </div>
     </div>

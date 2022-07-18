@@ -35,7 +35,11 @@ export function validatePesel(pesel) {
   }
   sum %= 10
   const checkNumber = 10 - sum
-  if (+pesel[10] !== checkNumber || +pesel.slice(4, 6) > 31 || +pesel.slice(2, 4) % 20 > 12) {
+  if (
+    +pesel[10] !== checkNumber ||
+    +pesel.slice(4, 6) > 31 ||
+    +pesel.slice(2, 4) % 20 > 12
+  ) {
     return false
   }
   return true

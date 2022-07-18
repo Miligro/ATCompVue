@@ -17,14 +17,20 @@
             :class="{ errorBorder: el.invalid }"
             @blur="el.checkFun(el)"
           />
-          <p v-if="el.invalid" class="error-msg">Niepoprawna wartość {{ el.label }}</p>
+          <p v-if="el.invalid" class="error-msg">
+            Niepoprawna wartość {{ el.label }}
+          </p>
         </div>
         <div class="row-end">
           <button>Zapisz</button>
         </div>
       </form>
       <div class="disabled-inputs">
-        <input type="text" disabled :value="dateOfBirth ? `Data urodzenia: ${dateOfBirth}` : ''" />
+        <input
+          type="text"
+          disabled
+          :value="dateOfBirth ? `Data urodzenia: ${dateOfBirth}` : ''"
+        />
         <input type="text" disabled :value="gender ? `Płeć: ${gender}` : ''" />
       </div>
       <FormResult v-if="result" :result="result" />
@@ -33,7 +39,11 @@
 </template>
 
 <script>
-import { checkFunction, validatePesel, validateInputs } from '../scripts/validation.js'
+import {
+  checkFunction,
+  validatePesel,
+  validateInputs,
+} from '../scripts/validation.js'
 import FormResult from '../components/FormResult.vue'
 import { useDialogStore } from '../stores/dialog.js'
 export default {
@@ -109,7 +119,11 @@ export default {
       this.msg = validateInputs(this.toValid)
       if (this.msg) {
         this.msg = 'Niepoprawna wartość: ' + this.msg
-        this.dialogStore.setInformationDialog(this.msg, 'fa-solid fa-exclamation', 'error-icon')
+        this.dialogStore.setInformationDialog(
+          this.msg,
+          'fa-solid fa-exclamation',
+          'error-icon'
+        )
         return
       }
       this.getPeselData()
@@ -118,13 +132,17 @@ export default {
     getPeselData() {
       this.dateOfBirth = null
       const yearTemp = +this.toValid.pesel.value.slice(0, 2)
-      let year = 1900 + yearTemp + Math.floor(+this.toValid.pesel.value[2] / 2) * 100
+      let year =
+        1900 + yearTemp + Math.floor(+this.toValid.pesel.value[2] / 2) * 100
       let month = +this.toValid.pesel.value.slice(2, 4)
       month = month % 20
       const day = this.toValid.pesel.value.slice(4, 6)
       this.dateOfBirth = `${day}-${month < 10 ? '0' + month : month}-${year}`
 
-      this.gender = +this.toValid.pesel.value.slice(9, 10) % 2 == 0 ? 'Kobieta' : 'Mężczyzna'
+      this.gender =
+        +this.toValid.pesel.value.slice(9, 10) % 2 == 0
+          ? 'Kobieta'
+          : 'Mężczyzna'
     },
     appendData() {
       const data = this.toValid

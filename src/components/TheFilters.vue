@@ -12,13 +12,24 @@
   </div>
   <div class="row-space">
     <button class="filter-button" @click="onFilter">Filtruj</button>
-    <button class="reset-filters-button" @click="onResetFilters">Resetuj filtry</button>
+    <button class="reset-filters-button" @click="onResetFilters">
+      Resetuj filtry
+    </button>
     <select v-if="filters.select" v-model="values[filters.select.id]">
-      <option v-for="option in filters.select.options" :value="option.value" :key="option.value">
+      <option
+        v-for="option in filters.select.options"
+        :value="option.value"
+        :key="option.value"
+      >
         {{ option.text }}
       </option>
     </select>
-    <button v-if="filters.select" type="button" class="sort-button" @click="onSort">
+    <button
+      v-if="filters.select"
+      type="button"
+      class="sort-button"
+      @click="onSort"
+    >
       <font-awesome-icon :icon="icon" />
     </button>
   </div>
@@ -48,9 +59,17 @@ export default {
         const row = this.filters.rows[key]
         for (const filter of row) {
           if (filter.type === 'text') {
-            toReturn = this.filterByText(toReturn, filter.id, this.values[filter.id])
+            toReturn = this.filterByText(
+              toReturn,
+              filter.id,
+              this.values[filter.id]
+            )
           } else if (filter.type === 'number') {
-            toReturn = this.filterByNum(toReturn, filter.id, this.values[filter.id])
+            toReturn = this.filterByNum(
+              toReturn,
+              filter.id,
+              this.values[filter.id]
+            )
           }
         }
       }
@@ -79,7 +98,10 @@ export default {
         const row = this.filters.rows[key]
         for (const filter of row) {
           if (this.values[filter.id]) {
-            localStorage.setItem(`${this.storage}_${filter.id}`, this.values[filter.id])
+            localStorage.setItem(
+              `${this.storage}_${filter.id}`,
+              this.values[filter.id]
+            )
           }
         }
       }
@@ -108,13 +130,16 @@ export default {
     },
     filterByNum(toFilter, filterEl, filterBy) {
       if (filterBy) {
-        toFilter = toFilter.filter((el) => el[filterEl].toString() === filterBy.toString())
+        toFilter = toFilter.filter(
+          (el) => el[filterEl].toString() === filterBy.toString()
+        )
       }
       return toFilter
     },
     checkStorage() {
       if (this.filters.select) {
-        this.values[this.filters.select.id] = this.filters.select.options[0].value
+        this.values[this.filters.select.id] =
+          this.filters.select.options[0].value
       }
       let value = localStorage.getItem(`${this.storage}_order`)
       if (value) {
