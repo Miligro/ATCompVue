@@ -182,6 +182,10 @@ input {
   width: 100%;
 }
 
+form input {
+  border: none;
+}
+
 input.errorBorder:focus {
   outline: 1px solid red;
 }

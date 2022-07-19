@@ -18,16 +18,33 @@ export default {
       required: true,
     },
   },
-  emits: ['response'],
+  emits: ['response', 'save'],
   data() {
     return {
       title: '',
       content: '',
+      saveItem: null,
     }
   },
   mounted() {
     this.title = this.item.title
     this.content = this.item.body
+    this.saveItem = {
+      title: this.title,
+      body: this.content,
+      id: this.item.id,
+      userId: this.item.userId,
+    }
+  },
+  watch: {
+    title(newTitlte) {
+      this.saveItem.title = newTitlte
+      this.$emit('save', this.saveItem)
+    },
+    content(newContent) {
+      this.saveItem.body = newContent
+      this.$emit('save', this.saveItem)
+    },
   },
   methods: {
     confirmEdit() {
@@ -64,5 +81,10 @@ input,
 textarea {
   width: 100%;
   padding: 5px;
+  font-size: 20px;
+}
+
+button {
+  font-size: 20px;
 }
 </style>

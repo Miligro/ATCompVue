@@ -51,7 +51,12 @@ export default {
   },
   methods: {
     editPost() {
-      this.dialogStore.setEditDialog('EditPost', this.post, this.response)
+      this.dialogStore.setEditDialog(
+        'EditPost',
+        this.post,
+        'Poprawnie edytowano post',
+        'Nie udało się edytować posta!'
+      )
     },
     deletePost() {
       this.dialogStore.setQuestionDialog(
@@ -69,13 +74,6 @@ export default {
           this.dialogStore.error('Ups, coś poszło nie tak!')
         }
       })
-    },
-    response(res) {
-      if (res) {
-        this.dialogStore.success('Poprawnie edytowano post')
-      } else {
-        this.dialogStore.error('Nie udało się edytować posta!')
-      }
     },
     async toggleComments() {
       if (!this.comments) {

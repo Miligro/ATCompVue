@@ -26,6 +26,7 @@
     </nav>
   </header>
   <EditDialog
+    v-if="dialogStore.editComponent"
     :edit-component="dialogStore.editComponent"
     :item="dialogStore.item"
     @close="dialogStore.closeDialogs"

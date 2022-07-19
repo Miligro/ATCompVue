@@ -3,7 +3,12 @@
     <div class="backdrop" @click="$emit('close')" />
     <transition name="modal">
       <dialog open>
-        <component :is="editComponent" :item="item" @response="response" />
+        <component
+          :is="editComponent"
+          :item="item"
+          @response="response"
+          @save="saveInputs"
+        />
         <div class="row-end">
           <button class="close-button" @click="$emit('close')">Zamknij</button>
         </div>
@@ -30,6 +35,9 @@ export default {
   methods: {
     response(...res) {
       this.$emit('response', ...res)
+    },
+    saveInputs(item) {
+      localStorage.setItem(this.editComponent, JSON.stringify(item))
     },
   },
 }
