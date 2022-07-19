@@ -131,6 +131,7 @@ input.errorBorder:focus {
 button:disabled {
   background-color: rgb(170, 170, 170);
   color: gray;
+  cursor: default;
 }
 
 button {
@@ -151,5 +152,6 @@ p {
 a {
   color: black;
   font-weight: bold;
+  text-decoration: underline;
 }
 </style>

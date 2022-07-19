@@ -100,7 +100,7 @@ export default {
   margin-top: 2rem;
   border: none;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 6px;
   width: 100%;
   box-shadow: 0 0 8px black;
   text-align: center;

@@ -369,6 +369,12 @@ button {
   /* background-color: #65717e; */
 }
 
+.side-nav .router-link-exact-active .main-page-nav,
+.router-link-exact-active .head-nav-button {
+  background-color: black;
+  /* color: black; */
+}
+
 .navigation-con {
   margin-top: 15px;
   display: flex;
